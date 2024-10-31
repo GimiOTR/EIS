@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace EIS_backend.Migrations
+namespace EIS.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class IdentityMigration : Migration

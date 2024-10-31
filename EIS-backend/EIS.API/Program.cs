@@ -1,4 +1,4 @@
-using EIS_backend;
+using EIS.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
