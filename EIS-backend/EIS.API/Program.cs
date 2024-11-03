@@ -1,3 +1,5 @@
+using EIS.Domain.IRepository;
+using EIS.Infrastructure;
 using EIS.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +33,8 @@ builder.Services.AddCors(options =>
                .AllowAnyHeader();
     });
 });
+
+builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 
 var app = builder.Build();
 

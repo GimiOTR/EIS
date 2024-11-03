@@ -24,6 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EIS.Application\EIS.Application.csproj" />
+    <ProjectReference Include="..\EIS.Domain\EIS.Domain.csproj" />
     <ProjectReference Include="..\EIS.Infrastructure\EIS.Infrastructure.csproj" />
   </ItemGroup>
 
