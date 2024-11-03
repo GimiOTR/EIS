@@ -16,6 +16,10 @@ namespace EIS.Infrastructure.Data
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<Course>()
+                .HasIndex(c => c.Code)
+                .IsUnique();
+
             builder.Entity<CourseProgram>()
                 .HasKey(cp => new { cp.CourseId, cp.ProgramId });
 
@@ -30,17 +34,17 @@ namespace EIS.Infrastructure.Data
                 .HasForeignKey(cp => cp.ProgramId);
 
             builder.Entity<CourseProgramYear>()
-                .HasKey(cpl => new { cpl.CourseId, cpl.ProgramId, cpl.AcademicYearId });
+                .HasKey(cpy => new { cpy.CourseId, cpy.ProgramId, cpy.AcademicYearId });
 
             builder.Entity<CourseProgramYear>()
-                .HasOne(cpl => cpl.CourseProgram)
+                .HasOne(cpy => cpy.CourseProgram)
                 .WithMany(cp => cp.CourseProgramYears)
-                .HasForeignKey(cpl => new { cpl.CourseId, cpl.ProgramId });
+                .HasForeignKey(cpy => new { cpy.CourseId, cpy.ProgramId });
 
             builder.Entity<CourseProgramYear>()
-                .HasOne(cpl => cpl.AcademicYear)
+                .HasOne(cpy => cpy.AcademicYear)
                 .WithMany(ay => ay.CourseProgramYears)
-                .HasForeignKey(cpl => cpl.AcademicYearId);
+                .HasForeignKey(cpy => cpy.AcademicYearId);
         }
     }
 }
