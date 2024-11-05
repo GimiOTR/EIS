@@ -10,12 +10,17 @@ namespace EIS.Infrastructure
 {
     public class RepositoryManager(ApplicationDbContext repositoryContext) : IRepositoryManager
     {
-        private readonly ApplicationDbContext _repositoryContext = repositoryContext;
+        private readonly Lazy<ICourseRepository> _courseRepository = new(() => new CourseRepository(repositoryContext));
+        private readonly Lazy<IProgramRepository> _programRepository = new(() => new ProgramRepository(repositoryContext));
+
+        public ICourseRepository CourseRepository => _courseRepository.Value;
+
+        public IProgramRepository ProgramRepository => _programRepository.Value;
 
         public async Task SaveAsync()
         {
-            _repositoryContext.ChangeTracker.AutoDetectChangesEnabled = false;
-            await _repositoryContext.SaveChangesAsync();
+            repositoryContext.ChangeTracker.AutoDetectChangesEnabled = false;
+            await repositoryContext.SaveChangesAsync();
         }
     }
 }
