@@ -1,3 +1,8 @@
+using AutoMapper;
+using EIS.API;
+using EIS.Application;
+using EIS.Application.IService;
+using EIS.Domain.Entities;
 using EIS.Domain.IRepository;
 using EIS.Infrastructure;
 using EIS.Infrastructure.Data;
@@ -20,7 +25,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Add CORS services
@@ -35,6 +40,14 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
+builder.Services.AddScoped<IServiceManager, ServiceManager>();
+
+var config = new MapperConfiguration(cfg =>
+{
+    cfg.AddProfile(new MappingProfile());
+});
+var mapper = config.CreateMapper();
+builder.Services.AddSingleton(mapper);
 
 var app = builder.Build();
 
@@ -48,7 +61,7 @@ if (app.Environment.IsDevelopment())
 // Use the CORS policy
 app.UseCors("AllowAll");
 
-app.MapIdentityApi<IdentityUser>();
+app.MapIdentityApi<ApplicationUser>();
 
 app.UseHttpsRedirection();
 
