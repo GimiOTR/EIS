@@ -8,6 +8,9 @@ namespace EIS.Domain.IRepository
 {
     public interface IRepositoryManager
     {
+        ICourseRepository CourseRepository { get; }
+        IProgramRepository ProgramRepository { get; }
+
         Task SaveAsync();
     }
 }
