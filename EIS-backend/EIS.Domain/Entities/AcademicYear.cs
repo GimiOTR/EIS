@@ -13,6 +13,8 @@ namespace EIS.Domain.Entities
         public int Id { get; set; }
         public DateOnly StartYear { get; set; }
         public DateOnly EndYear { get; set; }
+        public bool FallSemesterFinalized { get; set; } = false;
+        public bool SpringSemesterFinalized { get; set; } = false;
 
         public ICollection<CourseProgramYear> CourseProgramYears { get; set; }
     }
