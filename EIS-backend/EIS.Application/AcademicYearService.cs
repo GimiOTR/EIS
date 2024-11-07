@@ -26,7 +26,7 @@ namespace EIS.Application
                 return new BaseResponse
                 {
                     Result = true,
-                    Message = "Course has been added"
+                    Message = "academic year has been added"
                 };
             }
             catch (Exception ex)
@@ -76,7 +76,7 @@ namespace EIS.Application
                 var existingAcademicYear = await repositoryManager.AcademicYearRepository.FindByIdAsync(id);
                 if (existingAcademicYear == null)
                 {
-                    return new BaseResponse { Result = false, Message = "The device with Id: " + id + " was not found" };
+                    return new BaseResponse { Result = false, Message = "The academic year with Id: " + id + " was not found" };
                 }
 
                 mapper.Map(academicYearDTO, existingAcademicYear);
@@ -87,7 +87,7 @@ namespace EIS.Application
                 return new BaseResponse
                 {
                     Result = true,
-                    Message = "The course has been modified"
+                    Message = "The academic year has been modified"
                 };
             }
             catch (Exception ex)
