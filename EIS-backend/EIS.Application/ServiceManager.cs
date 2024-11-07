@@ -13,9 +13,12 @@ namespace EIS.Application
     {
         private readonly Lazy<ICourseService> _courseService = new(() => new CourseService(repositoryManager, mapper));
         private readonly Lazy<IProgramService> _programService = new(() => new ProgramService(repositoryManager, mapper));
+        private readonly Lazy<IAcademicYearService> _academicYearService = new(() => new AcademicYearService(repositoryManager, mapper));
 
         public ICourseService CourseService => _courseService.Value;
 
         public IProgramService ProgramService => _programService.Value;
+
+        public IAcademicYearService AcademicYearService => _academicYearService.Value;
     }
 }

@@ -10,5 +10,6 @@ namespace EIS.Application.IService
     {
         ICourseService CourseService { get; }
         IProgramService ProgramService { get; }
+        IAcademicYearService AcademicYearService { get; }
     }
 }
