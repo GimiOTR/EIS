@@ -8,7 +8,7 @@ namespace EIS.Application.DTO.Response
 {
     public class AcademicYearResponseDTO
     {
-        public DateOnly StartYear { get; set; }
-        public DateOnly EndYear { get; set; }
+        public int StartYear { get; set; }
+        public int EndYear { get; set; }
     }
 }
