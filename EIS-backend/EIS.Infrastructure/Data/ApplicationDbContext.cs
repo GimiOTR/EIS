@@ -24,6 +24,14 @@ namespace EIS.Infrastructure.Data
                 .HasIndex(p => p.Code)
                 .IsUnique();
 
+            builder.Entity<AcademicYear>()
+                .HasIndex(ay => ay.StartYear)
+                .IsUnique();
+
+            builder.Entity<AcademicYear>()
+                .HasIndex(ay => ay.EndYear)
+                .IsUnique();
+
             builder.Entity<CourseProgram>()
                 .HasKey(cp => new { cp.CourseId, cp.ProgramId });
 
@@ -49,6 +57,32 @@ namespace EIS.Infrastructure.Data
                 .HasOne(cpy => cpy.AcademicYear)
                 .WithMany(ay => ay.CourseProgramYears)
                 .HasForeignKey(cpy => cpy.AcademicYearId);
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            ValidateAcademicYear();
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
+        private void ValidateAcademicYear()
+        {
+            var newAcademicYear = ChangeTracker.Entries<AcademicYear>()
+                .Where(e => e.State == EntityState.Added)
+                .Select(e => e.Entity)
+                .FirstOrDefault();
+
+            if (newAcademicYear != null)
+            {
+                var lastAcademicYear = AcademicYears
+                    .OrderByDescending(ay => ay.EndYear)
+                    .FirstOrDefault();
+
+                if (lastAcademicYear != null && (!lastAcademicYear.FallSemesterFinalized || !lastAcademicYear.SpringSemesterFinalized))
+                {
+                    throw new InvalidOperationException("Cannot create a new academic year unless the previous academic year's semesters are finalized.");
+                }
+            }
         }
     }
 }

@@ -100,7 +100,7 @@ namespace EIS.Application
                 var existingCourse = await repositoryManager.CourseRepository.FindByIdAsync(id);
                 if (existingCourse == null)
                 {
-                    return new BaseResponse { Result = false, Message = "The device with Id: " + id + " was not found" };
+                    return new BaseResponse { Result = false, Message = "The program with Id: " + id + " was not found" };
                 }
 
                 mapper.Map(courseDTO, existingCourse);
@@ -111,7 +111,7 @@ namespace EIS.Application
                 return new BaseResponse
                 {
                     Result = true,
-                    Message = "The course has been modified"
+                    Message = "The program has been modified"
                 };
             }
             catch (Exception ex)

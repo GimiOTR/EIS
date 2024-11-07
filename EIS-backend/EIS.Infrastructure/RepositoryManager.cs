@@ -12,10 +12,13 @@ namespace EIS.Infrastructure
     {
         private readonly Lazy<ICourseRepository> _courseRepository = new(() => new CourseRepository(repositoryContext));
         private readonly Lazy<IProgramRepository> _programRepository = new(() => new ProgramRepository(repositoryContext));
+        private readonly Lazy<IAcademicYearRepository> _academicYearRepository = new(() => new AcademicYearRepository(repositoryContext));
 
         public ICourseRepository CourseRepository => _courseRepository.Value;
 
         public IProgramRepository ProgramRepository => _programRepository.Value;
+
+        public IAcademicYearRepository AcademicYearRepository => _academicYearRepository.Value;
 
         public async Task SaveAsync()
         {
