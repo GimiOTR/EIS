@@ -1,0 +1,164 @@
+
+/*********************
+ CUSTOM UI COLORS
+*********************/
+
+/***
+Colors
+blue:  #4b8df8
+light blue: #bfd5fa
+red: #e02222
+yellow: #ffb848
+green: #35aa47
+purple: #852b99
+dark: #555555;
+light grey: #fafafa;
+***/
+
+/*********************
+ GENERAL RESET & SETUP 
+*********************/
+
+/***
+    Reset and overrides
+***/
+
+/***
+    Dashboard Buttons
+***/
+.custom-theme .dashboard-stat.blue {
+  background-color: #0098da;
+}
+
+.custom-theme .dashboard-stat.blue .more {
+  background-color: #0098da;
+}
+
+.custom-theme .dashboard-stat.green {
+  background-color: #6f8135;
+}
+
+.custom-theme .dashboard-stat.green .more {
+  background-color: #6f8135;
+}
+
+.custom-theme .dashboard-stat.red {
+  background-color: #e7191b;
+}
+
+.custom-theme .dashboard-stat.red .more {
+  background-color: #e7191b;
+}
+
+.custom-theme .dashboard-stat.yellow {
+  background-color: #bb8900;
+}
+
+.custom-theme .dashboard-stat.yellow .more {
+  background-color: #bb8900;
+}
+
+.custom-theme .dashboard-stat.purple {
+  background-color: #624a7e;
+}
+
+.custom-theme .dashboard-stat.purple .more {
+  background-color: #624a7e;
+}
+
+.custom-theme .dashboard-stat.orange {
+  background-color: #cd5806;
+}
+
+.custom-theme .dashboard-stat.orange .more {
+  background-color: #cd5806;
+}
+
+.custom-theme .dashboard-stat.gray {
+  background-color: #c1bbab;
+}
+
+.custom-theme .dashboard-stat.gray .more {
+  background-color: #c1bbab;
+}
+
+/***
+    More button on hover
+***/
+.dashboard-stat:hover .more {
+    text-decoration: none;
+    opacity: 1;
+    filter: alpha(opacity=100);
+}
+
+/***
+    portlet buttons
+***/
+.custom-theme .portlet.box.blue > .portlet-title {
+  background-color: #0098da;
+}
+
+.custom-theme .portlet.box.blue {
+  border: 1px solid #0098da;/*#b4cef8*/
+  border-top: 0;
+}
+
+.custom-theme .portlet.box.yellow > .portlet-title {
+  background-color: #bb8900;
+}
+
+.custom-theme .portlet.box.yellow {
+  border: 1px solid #bb8900;/*#fccb7e*/
+  border-top: 0;
+}
+
+.custom-theme .portlet.box.green > .portlet-title {
+  background-color: #6f8135;
+}
+
+.custom-theme .portlet.box.green {
+  border: 1px solid #6f8135;/*#77e588*/
+  border-top: 0;
+}
+
+.custom-theme .portlet.box.purple > .portlet-title {
+  background-color: #624a7e;
+}
+
+.custom-theme .portlet.box.purple {
+  border: 1px solid #624a7e;/*#af5cc1*/
+  border-top: 0;
+}
+
+/***
+    Small buttons color change
+***/
+.btn.blue {
+    color: white;
+    text-shadow: none;
+    background-color: #32ace1;
+}
+.btn.blue:hover,
+.btn.blue:focus,
+.btn.blue:active,
+.btn.blue.active,
+.btn.blue[disabled],
+.btn.blue.disabled {
+    background-color: #0098da !important;
+    color: #fff !important;
+    outline: none !important;
+}
+
+.btn-group .btn.blue.dropdown-toggle {
+    background-color: #32ace1 !important;
+}
+.btn-group .btn.blue:hover,
+.btn-group .btn.blue:focus,
+.btn-group .btn.blue:active,
+.btn-group .btn.blue.active,
+.btn-group .btn.blue.disabled,
+.btn-group .btn.blue[disabled] {
+    background-color: #0098da !important;
+    color: #fff !important;
+    outline: none !important;
+}

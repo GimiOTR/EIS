@@ -1,0 +1,325 @@
+<!-- 
+
+DESCRIPTION: 
+This HTML file represents the student profile page for the Epoka Interactive System (EIS) frontend. 
+It includes various sections such as the header, sidebar, and main content area displaying the student's personal information, address, family details, and discipline records.
+
+INCLUDES:
+- Bootstrap CSS for styling and layout.
+- Custom CSS for additional styling specific to the application.
+- Font Awesome for icons.
+
+SECTIONS:
+1. Header: Contains the navigation bar with the logo and user dropdown menu.
+2. Sidebar: Provides navigation links to different sections of the student portal.
+3. Main Content: Displays the student's profile information in a tabbed interface.
+
+USAGE:
+- The page is structured using Bootstrap's grid system.
+- JavaScript files for Bootstrap functionalities are included at the end of the document.
+-->
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap-grid.css">
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap-reboot.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/login.css">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/css/light.css">
+    <link rel="stylesheet" href="../assets/css/plugins.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style-metronic.css">
+    <link rel="stylesheet" href="../assets/css/style-responsive.css">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet"
+        type='text/css'>
+    <link rel="stylesheet" href="../assets/css/profile.css">
+
+    <title>Epoka Interactive System</title>
+</head>
+
+<body class="page-header-fixed custom-theme" style>
+    <!-- BEGIN HEADER -->
+    <div class="header navbar navbar-fixed-top">
+        <div class="header-inner navbar-expand" style="background-color: #00458c!important">
+            <!-- BEGIN LOGO -->
+            <a class="navbar-brand" href="/">
+                <img style="height: 100%" src="../assets/img/eis_logo.svg" alt="logo">
+            </a>
+            <!-- END LOGO -->
+        </div>
+        <!-- END TOP NAVIGATION BAR -->
+    </div>
+    <!-- END HEADER -->
+
+    <!-- BEGIN CONTAINER -->
+    <div class="page-container" style="background-color: whitesmoke">
+
+        <div class="page-sidebar-wrapper">
+            <div class="page-sidebar navbar">
+                <!-- BEGIN SIDEBAR MENU -->
+                <ul class="page-sidebar-menu" data-auto-scroll="true" data-slide-speed="200">
+                    <li id="1">
+                        <a href="student.html">
+                            <i class="fa fa-home"></i>
+                            <span class="title">
+                                Home
+                            </span>
+                            <span class="selected"></span>
+                        </a>
+                    </li>
+                    <li id="20">
+                        <a href="profile.html">
+                            <i class="fa fa-user"></i>
+                            <span class="title">My Profile</span>
+                        </a>
+                    </li>
+
+                    <li id="7">
+                        <a href="myCourses.html">
+                            <i class="fa fa-list"></i>
+                            <span class="title">Selected Courses</span>
+                        </a>
+                    </li>
+
+                    <li id="31">
+                        <a href="interimGrades">
+                            <i class="fa fa-list"></i>
+                            <span class="title">Interim Grades</span>
+                        </a>
+                    </li>
+
+                    <li id="10">
+                        <a href="attendance">
+                            <i class="fa fa-check-square-o"></i>
+                            <span class="title">Attendance</span>
+                        </a>
+                    </li>
+
+                    <li id="24">
+                        <a href="transcript">
+                            <i class="fa fa-tasks"></i>
+                            <span class="title">Transcript</span>
+                        </a>
+                    </li>
+
+                    <li id="106">
+                        <a href="/publictimetable/me">
+                            <i class="fa fa-calendar"></i>
+                            <span class="title">Timetable</span>
+                        </a>
+                    </li>
+
+                    <li id="72">
+                        <a href="courseSelection">
+                            <i class="fa fa-file"></i>
+                            <span class="title">Course Selection</span>
+                        </a>
+                    </li>
+
+                    <li id="80">
+                        <a href="finance_details">
+                            <i class="fa fa-dollar"></i>
+                            <span class="title">Finance</span>
+                        </a>
+                    </li>
+
+
+                    <li id="105">
+                        <a href="https://cms.epoka.edu.al/api/CMS_Archive/assets/Smart-Student-Guide-pdf-304">
+                            <i class="fa fa-book"></i>
+                            <span class="title">Student Guide</span>
+                        </a>
+                    </li>
+
+                    </li>
+                </ul>
+                <!-- END SIDEBAR MENU -->
+            </div>
+        </div>
+        <!-- END SIDEBAR -->
+
+        <!-- BEGIN CONTENT -->
+        <div class="page-content-wrapper">
+            <div class="page-content" style="min-height:1243px !important">
+                <!-- BEGIN PAGE HEADER-->
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                        <h3 class="page-title">My Profile
+                            <small></small>
+                        </h3>
+                        <ul class="page-breadcrumb breadcrumb">
+                            <li>
+                                <i class="fa fa-home"></i>
+                                <a href="student.html">
+                                    Home
+                                </a>
+                                <i class="fa fa-angle-right"></i>
+                            </li>
+                            <li>
+                                <a href="profile.html">
+                                    My Profile
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- END PAGE TITLE & BREADCRUMB-->
+                    </div>
+                </div>
+                <!-- END PAGE HEADER-->
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN SAMPLE TABLE PORTLET-->
+                        <div class="portlet box green">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-book"></i>Selected Courses <span>(Fall&nbsp;/&nbsp;2024)</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body" id="selectedcourses_container">
+                                <div class="table-scrollable">
+                                    <table class="table table-striped table-hover">
+                                        <thead class="flip-content">
+                                            <tr>
+                                                <th>Code</th>
+                                                <th>Name</th>
+                                                <th class="numeric text-center">Credits</th>
+                                                <th class="numeric text-center">ECTS</th>
+                                                <th class="numeric">Lecturer</th>
+                                                <th class="numeric">Type</th>
+                                                <th class="text-center">Approved</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><a href="/curricula/syllabus/22936" target="_blank">CEN 307 </a>
+                                                </td>
+                                                <td><a href="/curricula/syllabus/22936" target="_blank">COMPUTER
+                                                        NETWORKS</a>
+                                                </td>
+                                                <td class="numeric text-center">4</td>
+                                                <td class="numeric text-center">6</td>
+                                                <td class="numeric">Dimitrios Karras</td>
+                                                <td>Compulsory</td>
+                                                <td class="text-center">
+                                                    <span class="label label-sm label-success">Yes</span>
+                                                </td>
+                                                <td class="action-field text-right">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><a href="/curricula/syllabus/22937" target="_blank">CEN 311 </a>
+                                                </td>
+                                                <td><a href="/curricula/syllabus/22937" target="_blank">WEB TECHNOLOGIES
+                                                        AND PROGRAMMING</a>
+                                                </td>
+                                                <td class="numeric text-center">4</td>
+                                                <td class="numeric text-center">6</td>
+                                                <td class="numeric">Ervis Trupja</td>
+                                                <td>Compulsory</td>
+                                                <td class="text-center">
+                                                    <span class="label label-sm label-success">Yes</span>
+                                                </td>
+                                                <td class="action-field text-right">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><a href="/curricula/syllabus/22938" target="_blank">CEN 351 </a>
+                                                </td>
+                                                <td><a href="/curricula/syllabus/22938" target="_blank">PROFESSIONAL
+                                                        PRACTICE</a>
+                                                </td>
+                                                <td class="numeric text-center">0</td>
+                                                <td class="numeric text-center">6</td>
+                                                <td class="numeric">Stela Lila</td>
+                                                <td>Compulsory</td>
+                                                <td class="text-center">
+                                                    <span class="label label-sm label-success">Yes</span>
+                                                </td>
+                                                <td class="action-field text-right">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><a href="/curricula/syllabus/22939" target="_blank">CEN 376 </a>
+                                                </td>
+                                                <td><a href="/curricula/syllabus/22939" target="_blank">DATA MINING</a>
+                                                </td>
+                                                <td class="numeric text-center">3</td>
+                                                <td class="numeric text-center">6</td>
+                                                <td class="numeric">Erind Bedalli</td>
+                                                <td>Elective</td>
+                                                <td class="text-center">
+                                                    <span class="label label-sm label-success">Yes</span>
+                                                </td>
+                                                <td class="action-field text-right">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><a href="/curricula/syllabus/22942" target="_blank">CEN 352 </a>
+                                                </td>
+                                                <td><a href="/curricula/syllabus/22942" target="_blank">ARTIFICIAL
+                                                        INTELLIGENCE</a>
+                                                </td>
+                                                <td class="numeric text-center">3</td>
+                                                <td class="numeric text-center">6</td>
+                                                <td class="numeric">Bekir Karlik</td>
+                                                <td>Elective</td>
+                                                <td class="text-center">
+                                                    <span class="label label-sm label-success">Yes</span>
+                                                </td>
+                                                <td class="action-field text-right">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="confirm_modal" class="modal fade">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-hidden="true">×</button>
+                                                <h3>Are you sure you want to continue?</h3>
+                                            </div>
+                                            <div class="modal-body">
+                                                <label>
+                                                    <div class="checker"><span><input
+                                                                data-toggle-target="#modal_submit_btn"
+                                                                type="checkbox"></span></div>&nbsp;&nbsp; I confirm that
+                                                    I want to drop <b id="confirm_modal_course">Course</b> Course
+                                                </label>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button disabled="" id="modal_submit_btn"
+                                                    class="btn btn-danger submit_btn">Yes</button>
+                                                <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                        <!-- END SAMPLE TABLE PORTLET-->
+                    </div>
+                </div>
+
+                <!-- Optional JavaScript -->
+                <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+                <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>

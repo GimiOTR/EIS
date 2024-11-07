@@ -1,0 +1,426 @@
+<!-- 
+
+DESCRIPTION: 
+This HTML file represents the student profile page for the Epoka Interactive System (EIS) frontend. 
+It includes various sections such as the header, sidebar, and main content area displaying the student's personal information, address, family details, and discipline records.
+
+INCLUDES:
+- Bootstrap CSS for styling and layout.
+- Custom CSS for additional styling specific to the application.
+- Font Awesome for icons.
+
+SECTIONS:
+1. Header: Contains the navigation bar with the logo and user dropdown menu.
+2. Sidebar: Provides navigation links to different sections of the student portal.
+3. Main Content: Displays the student's profile information in a tabbed interface.
+
+USAGE:
+- The page is structured using Bootstrap's grid system.
+- JavaScript files for Bootstrap functionalities are included at the end of the document.
+-->
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap-grid.css">
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap-reboot.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/login.css">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/css/light.css">
+    <link rel="stylesheet" href="../assets/css/plugins.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style-metronic.css">
+    <link rel="stylesheet" href="../assets/css/style-responsive.css">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet" type='text/css'>
+    <link rel="stylesheet" href="../assets/css/profile.css">
+    
+    <title>Epoka Interactive System</title>
+    </head>
+    
+    <body class="page-header-fixed custom-theme" style>
+        <!-- BEGIN HEADER -->
+        <div class="header navbar navbar-fixed-top">
+            <div class="header-inner navbar-expand" style="background-color: #00458c!important">
+                <!-- BEGIN LOGO -->
+                <a class="navbar-brand" href="/">
+                    <img style="height: 100%" src="../assets/img/eis_logo.svg" alt="logo">
+                </a>
+                <!-- END LOGO -->
+            </div>
+            <!-- END TOP NAVIGATION BAR -->
+        </div>
+        <!-- END HEADER -->
+    
+        <!-- BEGIN CONTAINER -->
+        <div class="page-container" style="background-color: whitesmoke">
+    
+            <div class="page-sidebar-wrapper">
+                <div class="page-sidebar navbar">
+                    <!-- BEGIN SIDEBAR MENU -->
+                    <ul class="page-sidebar-menu" data-auto-scroll="true" data-slide-speed="200">
+                        <li id="1">
+                            <a href="student.html">
+                                <i class="fa fa-home"></i>
+                                <span class="title">
+                                    Home
+                                </span>
+                                <span class="selected"></span>
+                            </a>
+                        </li>
+                    <li id="20">
+                        <a href="profile.html">
+                            <i class="fa fa-user"></i>
+                            <span class="title">My Profile</span>
+                        </a>
+                    </li>
+
+                    <li id="7">
+                        <a href="myCourses.html">
+                            <i class="fa fa-list"></i>
+                            <span class="title">Selected Courses</span>
+                        </a>
+                    </li>
+
+                    <li id="31">
+                        <a href="/student/interimGrades">
+                            <i class="fa fa-list"></i>
+                            <span class="title">Interim Grades</span>
+                        </a>
+                    </li>
+
+                    <li id="10">
+                        <a href="/student/attendance">
+                            <i class="fa fa-check-square-o"></i>
+                            <span class="title">Attendance</span>
+                        </a>
+                    </li>
+
+                    <li id="24">
+                        <a href="/student/transcript">
+                            <i class="fa fa-tasks"></i>
+                            <span class="title">Transcript</span>
+                        </a>
+                    </li>
+
+                    <li id="106">
+                        <a href="/publictimetable/me">
+                            <i class="fa fa-calendar"></i>
+                            <span class="title">Timetable</span>
+                        </a>
+                    </li>
+
+                    <li id="72">
+                        <a href="/student/courseSelection">
+                            <i class="fa fa-file"></i>
+                            <span class="title">Course Selection</span>
+                        </a>
+                    </li>
+
+                    <li id="80">
+                        <a href="/student/finance_details">
+                            <i class="fa fa-dollar"></i>
+                            <span class="title">Finance</span>
+                        </a>
+                    </li>
+
+
+                    <li id="105">
+                        <a href="https://cms.epoka.edu.al/api/CMS_Archive/assets/Smart-Student-Guide-pdf-304">
+                            <i class="fa fa-book"></i>
+                            <span class="title">Student Guide</span>
+                        </a>
+                    </li>
+
+                    </li>
+                </ul>
+                <!-- END SIDEBAR MENU -->
+            </div>
+        </div>
+        <!-- END SIDEBAR -->
+
+        <!-- BEGIN CONTENT -->
+        <div class="page-content-wrapper">
+            <div class="page-content" style="min-height:1243px !important">
+                <!-- BEGIN PAGE HEADER-->
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                        <h3 class="page-title">My Profile
+                            <small></small>
+                        </h3>
+                        <ul class="page-breadcrumb breadcrumb">
+                            <li>
+                                <i class="fa fa-home"></i>
+                                <a href="student.html">
+                                    Home
+                                </a>
+                                <i class="fa fa-angle-right"></i>
+                            </li>
+                            <li>
+                                <a href="profile.html">
+                                    My Profile
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- END PAGE TITLE & BREADCRUMB-->
+                    </div>
+                </div>
+                <!-- END PAGE HEADER-->
+
+                <div class="row profile">
+                    <div class="col-md-12">
+                        <!--BEGIN TABS-->
+
+                        <div class="row profile-account">
+                            <div class="col-md-3">
+                                <ul class="ver-inline-menu tabbable margin-bottom-10">
+                                    <li>
+                                        <img src="../assets/img/user.png" class="img-fluid" alt="">
+                                    </li>
+
+                                    <li class="active">
+                                        <a data-toggle="tab" href="#tab_1-1">
+                                            <i class="fa fa-user"></i> Identification
+                                        </a>
+                                        <span class="after">
+                                        </span>
+                                    </li>
+                                    <li class="">
+                                        <a data-toggle="tab" href="#tab_1-2">
+                                            <i class="fa fa-map-marker"></i> Address
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a data-toggle="tab" href="#tab_1-3">
+                                            <i class="fa fa-users"></i> Family
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="row">
+                                    <div class="col-md-8 profile-info">
+                                        <h1>Ion Xhembulla</h1>
+                                        <p>
+                                            <a href="mailto:ixhembulla22@epoka.edu.al">ixhembulla22@epoka.edu.al</a>
+                                        </p>
+                                        <ul class="list-inline">
+                                            <li>
+                                                <i class="fa fa-map-marker"></i> Tiranë
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-calendar"></i>2003-08-06
+                                            </li>
+                                            <li> <i class="fa fa-male"></i>
+                                                MALE
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-certificate"></i> C
+                                                - APTIS
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="tab-content">
+                                    <div id="tab_1-1" class="tab-pane active">
+                                        <div class="portlet box blue">
+                                            <div class="portlet-title">
+                                                <div class="caption"><i class="fa fa-user"></i>Person Details</div>
+                                                <div class="tools"><a href="javascript:;" class="collapse"></a></div>
+                                            </div>
+                                            <div id="tab_p1-1" class="portlet-body ajaxformsubmit ">
+
+                                                <h3 class="form-header-title">Personal Information</h3>
+                                                <hr class="form-header-line">
+
+                                                <div class="form-content-summary">
+                                                    <ul class="list-unstyled">
+                                                        <li><span class="label-cont col-md-4">Name</span>
+                                                            <span class="text-cont col-md-8">Ion</span>
+                                                        </li>
+                                                        <li><span class="label-cont col-md-4">Surname</span>
+                                                            <span class="text-cont col-md-8">Xhembulla</span>
+                                                        </li>
+                                                        <li><span class="label-cont col-md-4">Epoka ID No.</span>
+                                                            <span class="text-cont col-md-8">02012270</span>
+                                                        </li>
+                                                        <li><span class="label-cont col-md-4">Birthday</span>
+                                                            <span class="text-cont col-md-8">2003-08-06</span>
+                                                        </li>
+                                                        <li><span class="label-cont col-md-4">Birth Place</span>
+                                                            <span class="text-cont col-md-8">Peshkopi, ALB</span>
+                                                        </li>
+                                                        <li><span class="label-cont col-md-4">Gender</span>
+                                                            <span class="text-cont col-md-8">MALE</span>
+                                                        </li>
+                                                        <li><span class="label-cont col-md-4">Blood Group</span>
+                                                            <span class="text-cont col-md-8"></span>
+                                                        </li>
+                                                        <li><span class="label-cont col-md-4">Marital Status</span>
+                                                            <span class="text-cont col-md-8">Single</span>
+                                                        </li>
+                                                        <li><span class="label-cont col-md-4">Citizenship</span>
+                                                            <span class="text-cont col-md-8">Albania</span>
+                                                        </li>
+                                                        <li><span class="label-cont col-md-4">Passport No</span>
+                                                            <span class="text-cont col-md-8"></span>
+                                                        </li>
+                                                        <li><span class="label-cont col-md-4">ID Card No</span>
+                                                            <span class="text-cont col-md-8">K30806005P</span>
+                                                        </li>
+                                                        <li><span class="label-cont col-md-4">Primary Email</span>
+                                                            <span
+                                                                class="text-cont col-md-8">ixhembulla22@epoka.edu.al</span>
+                                                        </li>
+                                                        <li><span class="label-cont col-md-4">Secondary Email</span>
+                                                            <span class="text-cont col-md-8">i.xhem2003@gmail.com</span>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab_1-2" class="tab-pane">
+                                        <div class="portlet box blue">
+                                            <div class="portlet-title">
+                                                <div class="caption"><i class="fa fa-map-marker"></i>Adress Details
+                                                </div>
+                                                <div class="tools"><a href="javascript:;" class="collapse"></a></div>
+                                            </div>
+                                            <div id="tab_p1-2" class="portlet-body ajaxformsubmit ">
+
+                                                <p><strong> Address</strong>
+                                                </p>
+                                                <p>Rr. Don Bosko, Tiranë, Albania , </p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab_1-3" class="tab-pane">
+                                        <div class="portlet box blue">
+                                            <div class="portlet-title">
+                                                <div class="caption"><i class="fa fa-users"></i>Parents Details</div>
+                                                <div class="tools"><a href="javascript:;" class="collapse"></a></div>
+                                            </div>
+                                            <div id="tab_p1-3" class="portlet-body ajaxformsubmit ">
+
+
+                                                <h3 class="form-header-title">Father of Student</h3>
+                                                <hr class="form-header-line">
+
+
+                                                <div class="form-content-summary">
+                                                    <ul class="list-unstyled">
+
+                                                        <li><span class="label-cont col-md-4">Name </span>
+                                                            <span class="text-cont col-md-8">Gazmend</span>
+                                                        </li>
+                                                        <li><span class="label-cont col-md-4">Surname </span>
+                                                            <span class="text-cont col-md-8"></span>
+                                                        </li>
+                                                        <li><span class="label-cont col-md-4">Phone </span>
+                                                            <span class="text-cont col-md-8"></span>
+                                                        </li>
+                                                        <li><span class="label-cont col-md-4">Work </span>
+                                                            <span class="text-cont col-md-8"></span>
+                                                        </li>
+                                                        <li><span class="label-cont col-md-4">Profession </span>
+                                                            <span class="text-cont col-md-8">Doktor</span>
+                                                        </li>
+                                                    </ul>
+                                                    <br>
+
+
+                                                    <h3 class="form-header-title">Mother of Student</h3>
+                                                    <hr class="form-header-line">
+
+                                                    <ul class="list-unstyled">
+                                                        <li><span class="label-cont col-md-4">Name </span>
+                                                            <span class="text-cont col-md-8">Almira</span>
+                                                        </li>
+                                                        <li><span class="label-cont col-md-4">Surname</span>
+                                                            <span class="text-cont col-md-8"></span>
+                                                        </li>
+                                                        <li><span class="label-cont col-md-4">Phone </span>
+                                                            <span class="text-cont col-md-8"></span>
+                                                        </li>
+                                                        <li><span class="label-cont col-md-4">Work</span>
+                                                            <span class="text-cont col-md-8"></span>
+                                                        </li>
+                                                        <li><span class="label-cont col-md-4">Profession</span>
+                                                            <span class="text-cont col-md-8">Zv. Ministre "Turizmit dhe
+                                                                Mjedisit"</span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end col-md-9-->
+                        </div>
+                        <div id="delete_confirm" class="modal fade">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"
+                                            aria-hidden="true">×</button>
+                                        <h3>Confirm delete</h3>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>You are about to delete an item, this procedure is irreversible.</p>
+                                        <p>Do you want to proceed?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-danger">Yes</button>
+                                        <button class="btn btn-secondary" data-dismiss="modal">No</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="editInfoModal" tabindex="-1" role="basic" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"
+                                            aria-hidden="true"></button>
+                                        <h4 class="modal-title">Update Information</h4>
+                                    </div>
+                                    <div class="modal-body" id="editInfoModal-body">
+                                        There exist a record with data you have put! Identified:&nbsp;
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" id="editInfoFormSubmit" class="btn blue">Fill
+                                            Form</button>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
+
+                    </div>
+                </div>
+                <!-- END CONTAINER -->
+
+                <!-- Optional JavaScript -->
+                <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+                <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>

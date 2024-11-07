@@ -17,7 +17,7 @@ document.getElementById("loginForm").addEventListener("submit", async (event) =>
       
         if (response.ok) {
             // Redirect to the homepage upon successful login
-            window.location.href = "./homepage.html";
+            window.location.href = "student/student.html";
         } else {
             // Handle error (e.g., show an error message)
             const errorMessage = await response.text();
