@@ -82,7 +82,7 @@ namespace EIS.Application
         {
             try
             {
-                var programs = await repositoryManager.CourseRepository.GetAllAsync();
+                var programs = await repositoryManager.ProgramRepository.GetAllAsync();
 
                 return mapper.Map<IEnumerable<ProgramResponseDTO>>(programs);
             }
@@ -93,19 +93,19 @@ namespace EIS.Application
 
         }
 
-        public async Task<BaseResponse> UpdateProgram(int id, ProgramRequestDTO courseDTO)
+        public async Task<BaseResponse> UpdateProgram(int id, ProgramRequestDTO programDTO)
         {
             try
             {
-                var existingCourse = await repositoryManager.CourseRepository.FindByIdAsync(id);
-                if (existingCourse == null)
+                var existingProgram = await repositoryManager.ProgramRepository.FindByIdAsync(id);
+                if (existingProgram == null)
                 {
                     return new BaseResponse { Result = false, Message = "The device with Id: " + id + " was not found" };
                 }
 
-                mapper.Map(courseDTO, existingCourse);
+                mapper.Map(programDTO, existingProgram);
 
-                repositoryManager.CourseRepository.UpdateRecord(existingCourse);
+                repositoryManager.ProgramRepository.UpdateRecord(existingProgram);
                 await repositoryManager.SaveAsync();
 
                 return new BaseResponse
