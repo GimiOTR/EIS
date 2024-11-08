@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Courses</title>
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap-grid.css">
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap-reboot.css">
+    <link rel="stylesheet" href="../assets/css/custom-style.css">
+    <link rel="stylesheet" href="../assets/css/login.css">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/css/light.css">
+    <link rel="stylesheet" href="../assets/css/plugins.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style-metronic.css">
+    <link rel="stylesheet" href="../assets/css/style-responsive.css">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet" type='text/css'>
+    <link rel="stylesheet" href="../assets/css/profile.css">
+</head>
+<body class="page-header-fixed custom-theme">
+    <!-- BEGIN HEADER -->
+    <div class="header navbar navbar-fixed-top">
+        <div class="header navbar navbar-fixed-top" style="background-color: #00458c!important">
+            <div class="header-inner">
+                <a class="navbar-brand" href="/">
+                    <img style="height: 100%" src="../assets/img/eis_logo.svg" alt="logo">
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- END HEADER -->
+
+    <!-- BEGIN CONTAINER -->
+    <div class="page-container" style="background-color: whitesmoke">
+        <div class="page-sidebar-wrapper">
+            <div class="page-sidebar navbar">
+                <ul class="page-sidebar-menu" data-auto-scroll="true" data-slide-speed="200">
+                    <li id="1">
+                        <a href="admin.html">
+                            <i class="fa fa-home"></i>
+                            <span class="title">Home</span>
+                            <span class="selected"></span>
+                        </a>
+                    </li>
+                    <li id="20">
+                        <a href="academic-year.html">
+                            <i class="fa fa-user"></i>
+                            <span class="title">Academic Year</span>
+                        </a>
+                    </li>
+                    <li id="7">
+                        <a href="myCourses.html">
+                            <i class="fa fa-files-o"></i>
+                            <span class="title">Courses</span>
+                        </a>
+                    </li>
+                    <li id="31">
+                        <a href="study-programmes.html">
+                            <i class="fa fa-book"></i>
+                            <span class="title">Study Programs</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- END SIDEBAR -->
+
+        <!-- BEGIN CONTENT -->
+        <div class="page-content-wrapper">
+            <div class="page-content" style="min-height:1243px !important">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="page-title">Manage Courses</h3>
+                        <ul class="page-breadcrumb breadcrumb">
+                            <li>
+                                <i class="fa fa-home"></i>
+                                <a href="admin.html">Home</a>
+                                <i class="fa fa-angle-right"></i>
+                            </li>
+                            <li>
+                                <a href="myCourses.html">Courses</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <section class="manage-courses">
+                            <h2>Courses List</h2>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Course Code</th>
+                                        <th>Course Name</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="coursesTableBody">
+                                    <!-- Dynamic rows will be added here -->
+                                </tbody>
+                            </table>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#addCourseModal">Add New Course</button>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END CONTENT -->
+    </div>
+    <!-- END CONTAINER -->
+
+    <!-- Add Course Modal -->
+    <div class="modal fade" id="addCourseModal" tabindex="-1" role="dialog" aria-labelledby="addCourseModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCourseModalLabel">Add New Course</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addCourseForm">
+                        <div class="form-group">
+                            <label for="courseCode">Course Code</label>
+                            <input type="text" class="form-control" id="courseCode" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="courseName">Course Name</label>
+                            <input type="text" class="form-control" id="courseName" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Course</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../assets/js/admin-crud.js"></script>
+</body>
+</html>
