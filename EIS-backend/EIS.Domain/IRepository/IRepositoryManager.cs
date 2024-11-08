@@ -11,6 +11,7 @@ namespace EIS.Domain.IRepository
         ICourseRepository CourseRepository { get; }
         IProgramRepository ProgramRepository { get; }
         IAcademicYearRepository AcademicYearRepository { get; }
+        ICourseProgramRepository CourseProgramRepository { get; }
 
         Task SaveAsync();
     }
