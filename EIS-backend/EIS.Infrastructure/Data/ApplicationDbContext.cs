@@ -21,7 +21,7 @@ namespace EIS.Infrastructure.Data
                 .IsUnique();
 
             builder.Entity<StudyProgram>()
-                .HasIndex(p => p.Code)
+                .HasIndex(p => new { p.Code, p.Level })
                 .IsUnique();
 
             builder.Entity<AcademicYear>()
