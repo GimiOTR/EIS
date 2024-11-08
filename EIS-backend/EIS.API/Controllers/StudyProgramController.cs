@@ -37,14 +37,14 @@ namespace EIS.API.Controllers
             return Ok(result);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{code}/{level}")]
         public async Task<IActionResult> Put(string code, string level, [FromBody] ProgramRequestDTO programDTO)
         {
             var result = await serviceManager.ProgramService.UpdateProgram(code, level, programDTO);
             return Ok(result);
         }
         
-        [HttpDelete("{code,level}")]
+        [HttpDelete("{code}/{level}")]
         public async Task<IActionResult> Delete(string code, string level)
         {
             var result = await serviceManager.ProgramService.DeleteProgram(code, level);
