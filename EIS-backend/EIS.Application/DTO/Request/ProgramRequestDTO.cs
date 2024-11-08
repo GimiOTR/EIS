@@ -11,6 +11,5 @@ namespace EIS.Application.DTO.Request
         public string Name { get; set; }
         public string Code { get; set; }
         public string Level { get; set; }
-        public int DurationInSemesters { get; set; }    
     }
 }
