@@ -12,6 +12,7 @@ namespace EIS.Application.IService
     {
         Task<IEnumerable<ProgramResponseDTO>> GetAllPrograms();
         Task<ProgramResponseDTO> FindProgramById(int id);
+        Task<ProgramResponseDTO> FindProgramByCodeAndLevel(string code, string level);
         Task<BaseResponse> CreateProgram(ProgramRequestDTO programDTO);
         Task<BaseResponse> DeleteProgram(int id);
         Task<BaseResponse> UpdateProgram(int id, ProgramRequestDTO programDTO);

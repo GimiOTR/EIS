@@ -74,6 +74,21 @@ namespace EIS.Application
             }
         }
 
+        public async Task<CourseResponseDTO> FindCourseByCode(string code)
+        {
+            try
+            {
+                var course = await repositoryManager.CourseRepository.FindByCodeAsync(code);
+                return course == null
+                    ? throw new NotFoundException($"The course with Code: {code} was not found!")
+                    : mapper.Map<CourseResponseDTO>(course);
+            }
+            catch (Exception ex)
+            {
+                throw new BadRequestException(ex.Message);
+            }
+        }
+
         public async Task<IEnumerable<CourseResponseDTO>> GetAllCourses()
         {
             try

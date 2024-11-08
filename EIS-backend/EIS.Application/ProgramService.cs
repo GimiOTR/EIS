@@ -78,6 +78,21 @@ namespace EIS.Application
             }
         }
 
+        public async Task<ProgramResponseDTO> FindProgramByCodeAndLevel(string code, string level)
+        {
+            try
+            {
+                var program = await repositoryManager.ProgramRepository.FindByCodeAndLevelAsync(code, level);
+                return program == null
+                    ? throw new NotFoundException($"The program with Code: {code} and Level: {level} was not found!")
+                    : mapper.Map<ProgramResponseDTO>(program);
+            }
+            catch (Exception ex)
+            {
+                throw new BadRequestException(ex.Message);
+            }
+        }
+
         public async Task<IEnumerable<ProgramResponseDTO>> GetAllPrograms()
         {
             try
