@@ -37,14 +37,14 @@ namespace EIS.Application
             }
         }
 
-        public async Task<BaseResponse> DeleteCourse(int id)
+        public async Task<BaseResponse> DeleteCourse(string code)
         {
             try
             {
-                var course = await repositoryManager.CourseRepository.FindByIdAsync(id);
+                var course = await repositoryManager.CourseRepository.FindByCodeAsync(code);
                 if (course == null) 
                 {
-                    return new BaseResponse {  Result = false,  Message = "The course with Id: " + id + " was not found"};
+                    return new BaseResponse {  Result = false,  Message = "The course with Id: " + code + " was not found"};
                 }
 
                 repositoryManager.CourseRepository.DeleteRecord(course);
@@ -104,14 +104,14 @@ namespace EIS.Application
 
         }
 
-        public async Task<BaseResponse> UpdateCourse(int id, CourseRequestDTO courseDTO)
+        public async Task<BaseResponse> UpdateCourse(string code, CourseRequestDTO courseDTO)
         {
             try
             {
-                var existingCourse = await repositoryManager.CourseRepository.FindByIdAsync(id);
+                var existingCourse = await repositoryManager.CourseRepository.FindByCodeAsync(code);
                 if(existingCourse == null)
                 {
-                    return new BaseResponse { Result = false, Message = "The course with Id: " + id + " was not found" };
+                    return new BaseResponse { Result = false, Message = "The course with Id: " + code + " was not found" };
                 }
 
                 mapper.Map(courseDTO, existingCourse);
