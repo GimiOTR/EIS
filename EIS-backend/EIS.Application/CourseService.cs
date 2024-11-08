@@ -48,6 +48,8 @@ namespace EIS.Application
                 }
 
                 repositoryManager.CourseRepository.DeleteRecord(course);
+                await repositoryManager.SaveAsync();
+
                 return new BaseResponse
                 {
                     Result = true, Message = " The course has been deleted"

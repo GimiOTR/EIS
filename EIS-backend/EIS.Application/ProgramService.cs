@@ -51,6 +51,8 @@ namespace EIS.Application
                 }
 
                 repositoryManager.ProgramRepository.DeleteRecord(program);
+                await repositoryManager.SaveAsync();
+
                 return new BaseResponse
                 {
                     Result = true,
