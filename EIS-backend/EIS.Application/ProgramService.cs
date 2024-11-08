@@ -40,14 +40,14 @@ namespace EIS.Application
             }
         }
 
-        public async Task<BaseResponse> DeleteProgram(int id)
+        public async Task<BaseResponse> DeleteProgram(string code, string level)
         {
             try
             {
-                var program = await repositoryManager.ProgramRepository.FindByIdAsync(id);
+                var program = await repositoryManager.ProgramRepository.FindByCodeAndLevelAsync(code,level);
                 if (program == null)
                 {
-                    return new BaseResponse { Result = false, Message = "The program with Id: " + id + " was not found" };
+                    return new BaseResponse { Result = false, Message = $"The program with Code: {code} and Level: {level} was not found!" };
                 }
 
                 repositoryManager.ProgramRepository.DeleteRecord(program);
@@ -110,14 +110,14 @@ namespace EIS.Application
 
         }
 
-        public async Task<BaseResponse> UpdateProgram(int id, ProgramRequestDTO programDTO)
+        public async Task<BaseResponse> UpdateProgram(string code, string level, ProgramRequestDTO programDTO)
         {
             try
             {
-                var existingProgram = await repositoryManager.ProgramRepository.FindByIdAsync(id);
+                var existingProgram = await repositoryManager.ProgramRepository.FindByCodeAndLevelAsync(code, level);
                 if (existingProgram == null)
                 {
-                    return new BaseResponse { Result = false, Message = "The program with Id: " + id + " was not found" };
+                    return new BaseResponse { Result = false, Message = $"The program with Code: {code} and Level: {level} was not found!" };
                 }
 
                 mapper.Map(programDTO, existingProgram);

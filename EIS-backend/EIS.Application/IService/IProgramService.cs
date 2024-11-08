@@ -14,7 +14,7 @@ namespace EIS.Application.IService
         Task<ProgramResponseDTO> FindProgramById(int id);
         Task<ProgramResponseDTO> FindProgramByCodeAndLevel(string code, string level);
         Task<BaseResponse> CreateProgram(ProgramRequestDTO programDTO);
-        Task<BaseResponse> DeleteProgram(int id);
-        Task<BaseResponse> UpdateProgram(int id, ProgramRequestDTO programDTO);
+        Task<BaseResponse> DeleteProgram(string code, string level);
+        Task<BaseResponse> UpdateProgram(string code, string level, ProgramRequestDTO programDTO);
     }
 }
