@@ -4,6 +4,9 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' https: 'unsafe-inline' 'unsafe-eval'; style-src 'self' https: 'unsafe-inline';">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css">
@@ -18,14 +21,14 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/style-metronic.css">
     <link rel="stylesheet" href="assets/css/style-responsive.css">
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet"
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet"
           type='text/css'>
 
 
     <title>Epoka Interactive System</title>
 </head>
 
-<body class="login" style>
+<body class="login custom-theme" style>
 <!-- BEGIN LOGO -->
 <div class="logo">
     <img src="assets/img/eis_logo.svg" alt="Epoka University">
@@ -36,33 +39,41 @@
 <div class="content">
     <!-- BEGIN LOGIN FORM -->
     <form id="loginForm" class="login-form" method="post">
-    <h3 class="form-title">Login to your account</h3>
-    <div class="alert alert-danger alert-error display-hide">
-        <button id="message" class="close" data-close="alert"></button>
-        <span>Enter any username and password.</span>
-    </div>
-    <div class="form-group">
-        <label class="control-label visible-ie8 visible-ie9">Email</label>
-        <div class="input-icon">
-            <i class="fa fa-user"></i>
-            <input id="email" class="form-control placeholder-no-fix" type="text" autocomplete="off"
-                   placeholder="Email" name="email">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+        <h3 class="form-title">Login to your account</h3>
+        <div class="alert alert-danger alert-error display-hide">
+            <button id="message" class="close" data-close="alert"></button>
+            <span>Enter any username and password.</span>
         </div>
-    </div>
-    <div class="form-group">
+        <div class="form-group">
+            <label class="control-label visible-ie8 visible-ie9">Email</label>
+            <div class="input-icon">
+                <i class="fa fa-user"></i>
+                <input id="email" class="form-control placeholder-no-fix" type="email" 
+                       autocomplete="off" placeholder="Email" name="email" required>
+                <div class="invalid-feedback">
+                    Please enter a valid email address.
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
         <label class="control-label visible-ie8 visible-ie9">Password</label>
         <div class="input-icon">
             <i class="fa fa-lock"></i>
             <input id="password" class="form-control placeholder-no-fix" type="password" autocomplete="off"
                    placeholder="Password" name="password">
+            </div>
         </div>
-    </div>
-    <div class="form-actions">
-        <button id="submit" type="submit" class="btn green">
-            Login <i class="m-icon-swapright m-icon-white"></i>
-        </button>
-    </div>
-</form>
+        <div class="form-actions">
+            <button id="submit" type="submit" class="btn green">
+                <span class="normal-state">Login <i class="m-icon-swapright m-icon-white"></i></span>
+                <span class="loading-state d-none">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Logging in...
+                </span>
+            </button>
+        </div>
+    </form>
 </div>
 <div class="copyright">
     2014 - 2024 © Epoka University, ICTC Office
