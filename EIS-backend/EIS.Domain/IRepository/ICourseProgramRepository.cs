@@ -13,5 +13,6 @@ namespace EIS.Domain.IRepository
         Task<IEnumerable<CourseProgram>> GetAllByProgramIdAsync(int id);
         void CreateRecord(CourseProgram courseProgram);
         void DeleteRecord(CourseProgram courseProgram);
+        void UpdateRecord(CourseProgram courseProgram);
     }
 }

@@ -26,5 +26,7 @@ namespace EIS.Infrastructure
             await FindByCondition(cp => cp.ProgramId == id)
                 .Include(cp => cp.Course)
                 .ToListAsync();
+
+        public void UpdateRecord(CourseProgram courseProgram) => Update(courseProgram);
     }
 }
