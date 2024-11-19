@@ -13,8 +13,9 @@ namespace EIS.Application.IService
     {
         Task<IEnumerable<CourseResponseDTO>> GetAllCourses();
         Task<CourseResponseDTO> FindCourseById(int id);
+        Task<CourseResponseDTO> FindCourseByCode(string code);
         Task<BaseResponse> CreateCourse(CourseRequestDTO courseDTO);
-        Task<BaseResponse> DeleteCourse(int id);
-        Task<BaseResponse> UpdateCourse(int id, CourseRequestDTO courseDTO);
+        Task<BaseResponse> DeleteCourse(string code);
+        Task<BaseResponse> UpdateCourse(string code, CourseRequestDTO courseDTO);
     }
 }

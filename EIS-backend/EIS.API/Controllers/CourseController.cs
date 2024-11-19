@@ -38,17 +38,17 @@ namespace EIS.API.Controllers
             return Ok(result);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] CourseRequestDTO courseDTO)
+        [HttpPut("{code}")]
+        public async Task<IActionResult> Put(string code, [FromBody] CourseRequestDTO courseDTO)
         {
-            var result = await serviceManager.CourseService.UpdateCourse(id, courseDTO);
+            var result = await serviceManager.CourseService.UpdateCourse(code, courseDTO);
             return Ok(result);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete("{code}")]
+        public async Task<IActionResult> Delete(string code)
         {
-            var result = await serviceManager.CourseService.DeleteCourse(id);
+            var result = await serviceManager.CourseService.DeleteCourse(code);
             return Ok(result);
         }
     }

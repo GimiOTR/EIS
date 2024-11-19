@@ -18,6 +18,8 @@ namespace EIS.Infrastructure
 
         public async Task<Course> FindByIdAsync(int id) => await FindByCondition(c => c.Id.Equals(id)).FirstOrDefaultAsync();
 
+        public async Task<Course> FindByCodeAsync(string code) => await FindByCondition(c => c.Code.Equals(code)).FirstOrDefaultAsync();
+
         public async Task<IEnumerable<Course>> GetAllAsync() => await FindAll().ToListAsync();
 
         public void UpdateRecord(Course course) => Update(course);

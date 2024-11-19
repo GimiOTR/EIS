@@ -11,6 +11,7 @@ namespace EIS.Domain.IRepository
     {
         Task<IEnumerable<Course>> GetAllAsync();
         Task<Course> FindByIdAsync(int id);
+        Task<Course> FindByCodeAsync(string code);
         void CreateRecord(Course course);
         void UpdateRecord(Course course);
         void DeleteRecord(Course course);

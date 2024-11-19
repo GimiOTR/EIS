@@ -37,17 +37,19 @@ namespace EIS.Application
             }
         }
 
-        public async Task<BaseResponse> DeleteCourse(int id)
+        public async Task<BaseResponse> DeleteCourse(string code)
         {
             try
             {
-                var course = await repositoryManager.CourseRepository.FindByIdAsync(id);
+                var course = await repositoryManager.CourseRepository.FindByCodeAsync(code);
                 if (course == null) 
                 {
-                    return new BaseResponse {  Result = false,  Message = "The course with Id: " + id + " was not found"};
+                    return new BaseResponse {  Result = false,  Message = "The course with Id: " + code + " was not found"};
                 }
 
                 repositoryManager.CourseRepository.DeleteRecord(course);
+                await repositoryManager.SaveAsync();
+
                 return new BaseResponse
                 {
                     Result = true, Message = " The course has been deleted"
@@ -74,6 +76,21 @@ namespace EIS.Application
             }
         }
 
+        public async Task<CourseResponseDTO> FindCourseByCode(string code)
+        {
+            try
+            {
+                var course = await repositoryManager.CourseRepository.FindByCodeAsync(code);
+                return course == null
+                    ? throw new NotFoundException($"The course with Code: {code} was not found!")
+                    : mapper.Map<CourseResponseDTO>(course);
+            }
+            catch (Exception ex)
+            {
+                throw new BadRequestException(ex.Message);
+            }
+        }
+
         public async Task<IEnumerable<CourseResponseDTO>> GetAllCourses()
         {
             try
@@ -89,14 +106,14 @@ namespace EIS.Application
 
         }
 
-        public async Task<BaseResponse> UpdateCourse(int id, CourseRequestDTO courseDTO)
+        public async Task<BaseResponse> UpdateCourse(string code, CourseRequestDTO courseDTO)
         {
             try
             {
-                var existingCourse = await repositoryManager.CourseRepository.FindByIdAsync(id);
+                var existingCourse = await repositoryManager.CourseRepository.FindByCodeAsync(code);
                 if(existingCourse == null)
                 {
-                    return new BaseResponse { Result = false, Message = "The course with Id: " + id + " was not found" };
+                    return new BaseResponse { Result = false, Message = "The course with Id: " + code + " was not found" };
                 }
 
                 mapper.Map(courseDTO, existingCourse);

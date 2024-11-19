@@ -21,6 +21,12 @@ namespace EIS.API
             CreateMap<AcademicYear, CreateAcademicYearDTO>().ReverseMap();
             CreateMap<AcademicYear, UpdateAcademicYearDTO>().ReverseMap();
             CreateMap<AcademicYearResponseDTO, AcademicYear>().ReverseMap();
+
+            //Course Program
+            CreateMap<CourseProgram, CourseProgramRequestDTO>().ReverseMap();
+            CreateMap<CourseProgram, CourseProgramResponseDTO>()
+            .ForMember(dest => dest.CourseCode, opt => opt.MapFrom(src => src.Course.Code))
+            .ForMember(dest => dest.CourseName, opt => opt.MapFrom(src => src.Course.Name));
         }
     }
 }
