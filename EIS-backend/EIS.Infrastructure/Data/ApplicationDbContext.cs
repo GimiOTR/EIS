@@ -57,6 +57,8 @@ namespace EIS.Infrastructure.Data
                 .HasOne(cpy => cpy.AcademicYear)
                 .WithMany(ay => ay.CourseProgramYears)
                 .HasForeignKey(cpy => cpy.AcademicYearId);
+
+            builder.ApplyConfiguration(new RoleConfiguration());
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
