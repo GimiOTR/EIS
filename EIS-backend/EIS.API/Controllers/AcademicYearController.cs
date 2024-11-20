@@ -37,10 +37,10 @@ namespace EIS.API.Controllers
             return Ok(result);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] UpdateAcademicYearDTO academicYearDTO)
+        [HttpPut("{startYear}")]
+        public async Task<IActionResult> Put(int startYear, [FromBody] UpdateAcademicYearDTO academicYearDTO)
         {
-            var result = await serviceManager.AcademicYearService.UpdateAcademicYear(id, academicYearDTO);
+            var result = await serviceManager.AcademicYearService.UpdateAcademicYear(startYear, academicYearDTO);
             return Ok(result);
         }
     }

@@ -10,5 +10,7 @@ namespace EIS.Application.DTO.Response
     {
         public int StartYear { get; set; }
         public int EndYear { get; set; }
+        public bool FallSemesterFinalized { get; set; }
+        public bool SpringSemesterFinalized { get; set; }
     }
 }

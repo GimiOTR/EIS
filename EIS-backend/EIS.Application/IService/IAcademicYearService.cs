@@ -13,6 +13,6 @@ namespace EIS.Application.IService
         Task<IEnumerable<AcademicYearResponseDTO>> GetAllAcademicYears();
         Task<AcademicYearResponseDTO> FindAcademicYearByStartYear(int startYear);
         Task<BaseResponse> CreateAcademicYear(CreateAcademicYearDTO academicYearDTO);
-        Task<BaseResponse> UpdateAcademicYear(int id, UpdateAcademicYearDTO academicYearDTO);
+        Task<BaseResponse> UpdateAcademicYear(int startYear, UpdateAcademicYearDTO academicYearDTO);
     }
 }
