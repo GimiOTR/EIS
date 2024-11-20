@@ -1,3 +1,5 @@
+const apiBaseUrl = 'https://localhost:7173';
+
 document.getElementById("loginForm").addEventListener("submit", async (event) => {
     event.preventDefault(); // Prevent form from submitting traditionally
   
@@ -6,18 +8,18 @@ document.getElementById("loginForm").addEventListener("submit", async (event) =>
   
     const credentials = btoa(`${email}:${password}`);
     try {
-        const response = await fetch("https://localhost:7173/login", {
+        const response = await fetch(`${apiBaseUrl}/login`, {
             method: "POST",
             headers: {
                 "Authorization": `Basic ${credentials}`,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ email, password }), // Ensure credentials are not in the URL
+            body: JSON.stringify({ email, password }),
         });
       
         if (response.ok) {
             // Redirect to the homepage upon successful login
-            window.location.href = "./homepage.html";
+            window.location.href = "./admin/admin.html";
         } else {
             // Handle error (e.g., show an error message)
             const errorMessage = await response.text();
