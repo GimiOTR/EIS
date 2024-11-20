@@ -9,12 +9,12 @@ namespace EIS.API.Controllers
     [ApiController]
     public class AcademicYearController(IServiceManager serviceManager) : ControllerBase
     {
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        [HttpGet("{startYear}")]
+        public async Task<IActionResult> Get(int startYear)
         {
             try
             {
-                var result = await serviceManager.AcademicYearService.FindAcademicYearById(id);
+                var result = await serviceManager.AcademicYearService.FindAcademicYearByStartYear(startYear);
                 return Ok(result);
             }
             catch (BadRequestException ex)

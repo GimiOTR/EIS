@@ -11,7 +11,7 @@ namespace EIS.Application.IService
     public interface IAcademicYearService
     {
         Task<IEnumerable<AcademicYearResponseDTO>> GetAllAcademicYears();
-        Task<AcademicYearResponseDTO> FindAcademicYearById(int id);
+        Task<AcademicYearResponseDTO> FindAcademicYearByStartYear(int startYear);
         Task<BaseResponse> CreateAcademicYear(CreateAcademicYearDTO academicYearDTO);
         Task<BaseResponse> UpdateAcademicYear(int id, UpdateAcademicYearDTO academicYearDTO);
     }
