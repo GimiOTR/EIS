@@ -16,6 +16,8 @@ namespace EIS.Infrastructure
 
         public async Task<AcademicYear> FindByIdAsync(int id) => await FindByCondition(c => c.Id.Equals(id)).FirstOrDefaultAsync();
 
+        public async Task<AcademicYear> FindByStartYearAsync(int startYear) => await FindByCondition(c => c.StartYear.Equals(startYear)).FirstOrDefaultAsync();
+
         public async Task<IEnumerable<AcademicYear>> GetAllAsync() => await FindAll().ToListAsync();
 
         public void UpdateRecord(AcademicYear academicYear) => Update(academicYear);

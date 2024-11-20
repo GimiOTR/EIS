@@ -39,13 +39,13 @@ namespace EIS.Application
             }
         }
 
-        public async Task<AcademicYearResponseDTO> FindAcademicYearById(int id)
+        public async Task<AcademicYearResponseDTO> FindAcademicYearByStartYear(int startYear)
         {
             try
             {
-                var academicYear = await repositoryManager.AcademicYearRepository.FindByIdAsync(id);
+                var academicYear = await repositoryManager.AcademicYearRepository.FindByStartYearAsync(startYear);
                 return academicYear == null
-                    ? throw new NotFoundException($"The academic year with Id: {id} was not found!")
+                    ? throw new NotFoundException($"The academic year with start year: {startYear} was not found!")
                     : mapper.Map<AcademicYearResponseDTO>(academicYear);
             }
             catch (Exception ex)

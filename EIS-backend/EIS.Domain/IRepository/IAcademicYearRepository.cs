@@ -11,6 +11,7 @@ namespace EIS.Domain.IRepository
     {
         Task<IEnumerable<AcademicYear>> GetAllAsync();
         Task<AcademicYear> FindByIdAsync(int id);
+        Task<AcademicYear> FindByStartYearAsync(int startYear);
         void CreateRecord(AcademicYear academicYear);
         void UpdateRecord(AcademicYear academicYear);
     }
