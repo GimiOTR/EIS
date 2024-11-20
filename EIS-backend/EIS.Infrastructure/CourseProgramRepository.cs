@@ -24,6 +24,7 @@ namespace EIS.Infrastructure
 
         public async Task<IEnumerable<CourseProgram>> GetAllByProgramIdAsync(int id) =>
             await FindByCondition(cp => cp.ProgramId == id)
+                .OrderBy(cp => cp.Semester)
                 .Include(cp => cp.Course)
                 .ToListAsync();
 
