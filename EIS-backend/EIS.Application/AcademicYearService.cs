@@ -69,14 +69,14 @@ namespace EIS.Application
 
         }
 
-        public async Task<BaseResponse> UpdateAcademicYear(int id, UpdateAcademicYearDTO academicYearDTO)
+        public async Task<BaseResponse> UpdateAcademicYear(int startYear, UpdateAcademicYearDTO academicYearDTO)
         {
             try
             {
-                var existingAcademicYear = await repositoryManager.AcademicYearRepository.FindByIdAsync(id);
+                var existingAcademicYear = await repositoryManager.AcademicYearRepository.FindByStartYearAsync(startYear);
                 if (existingAcademicYear == null)
                 {
-                    return new BaseResponse { Result = false, Message = "The academic year with Id: " + id + " was not found" };
+                    return new BaseResponse { Result = false, Message = "The academic year with start year: " + startYear + " was not found" };
                 }
 
                 mapper.Map(academicYearDTO, existingAcademicYear);
