@@ -9,10 +9,17 @@ namespace EIS.API.Controllers
     [ApiController]
     public class CourseProgramController(IServiceManager serviceManager) : ControllerBase
     {
-        [HttpGet("{code}/{level}")]
+        [HttpGet("{code}/{level}/assigned")]
         public async Task<IActionResult> GetAll(string code, string level)
         {
             var result = await serviceManager.CourseProgramService.GetAllCoursesForProgram(code, level);
+            return Ok(result);
+        }
+
+        [HttpGet("{code}/{level}/unassigned")]
+        public async Task<IActionResult> GetUnassignedCourses(string code, string level)
+        {
+            var result = await serviceManager.CourseProgramService.GetUnassignedCoursesForProgram(code, level);
             return Ok(result);
         }
 
@@ -36,6 +43,5 @@ namespace EIS.API.Controllers
             var result = await serviceManager.CourseProgramService.RemoveCourseFromProgram(courseCode, code, level);
             return Ok(result);
         }
-
     }
 }
