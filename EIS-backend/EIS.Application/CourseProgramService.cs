@@ -58,6 +58,8 @@ namespace EIS.Application
             return courseProgramDTOs;
         }
 
+
+
         public async Task<BaseResponse> RemoveCourseFromProgram(string courseCode, string programCode, string programLevel)
         {
             try
@@ -118,6 +120,23 @@ namespace EIS.Application
             {
                 return new BaseResponse { Result = false, Message = ex.Message };
             }
+        }
+
+        public async Task<IEnumerable<CourseResponseDTO>> GetUnassignedCoursesForProgram(string programCode, string programLevel)
+        {
+            var program = await repositoryManager.ProgramRepository.FindByCodeAndLevelAsync(programCode, programLevel)
+                ?? throw new NotFoundException("Program not found");
+
+            var allCourses = await repositoryManager.CourseRepository.GetAllAsync();
+
+            var assignedCoursePrograms = await repositoryManager.CourseProgramRepository.GetAllByProgramIdAsync(program.Id);
+            var assignedCourseIds = assignedCoursePrograms.Select(cp => cp.CourseId).ToHashSet();
+
+            var unassignedCourses = allCourses.Where(c => !assignedCourseIds.Contains(c.Id));
+
+            var unassignedCourseDTOs = mapper.Map<IEnumerable<CourseResponseDTO>>(unassignedCourses);
+
+            return unassignedCourseDTOs;
         }
 
         private async Task<(BaseResponse? errorResponse, Course? course, StudyProgram? program)> GetCourseAndProgram(CourseProgramRequestDTO dto)
