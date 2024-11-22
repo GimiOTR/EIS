@@ -97,6 +97,10 @@ async function loadCourses() {
 
             coursesTableBody.appendChild(row);
         });
+
+        // Setup search functionality with loaded courses
+        setupSearchFunctionality(courses);
+
     } catch (error) {
         console.error('Error loading courses:', error);
     }
@@ -229,3 +233,60 @@ async function handleDeleteCourse(courseCode) {
         }
     }
 } 
+
+function setupSearchFunctionality(courses) {
+    const searchInput = document.getElementById('courseSearchInput');
+    if (!searchInput) return;
+    
+    searchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        filterCourses(courses, searchTerm);
+    });
+}
+
+function filterCourses(courses, searchTerm) {
+    const filteredCourses = courses.filter(course => 
+        course.code.toLowerCase().includes(searchTerm) || 
+        course.name.toLowerCase().includes(searchTerm)
+    );
+    
+    const coursesTableBody = document.getElementById('coursesTableBody');
+    if (!coursesTableBody) return;
+
+    coursesTableBody.innerHTML = '';
+    
+    if (filteredCourses.length === 0) {
+        coursesTableBody.innerHTML = '<tr><td colspan="3" class="text-center">No matching courses found</td></tr>';
+        return;
+    }
+
+    filteredCourses.forEach(course => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${course.code}</td>
+            <td>${course.name}</td>
+            <td>
+                <button class="btn btn-warning btn-sm edit-course" 
+                    data-code="${course.code}" 
+                    data-name="${course.name}">
+                    Edit
+                </button>
+                <button class="btn btn-danger btn-sm delete-course" 
+                    data-code="${course.code}">
+                    Delete
+                </button>
+            </td>
+        `;
+
+        const deleteBtn = row.querySelector('.delete-course');
+        deleteBtn.addEventListener('click', function() {
+            const courseCode = this.getAttribute('data-code');
+            handleDeleteCourse(courseCode);
+        });
+
+        const editBtn = row.querySelector('.edit-course');
+        editBtn.addEventListener('click', () => handleEditCourse(course));
+
+        coursesTableBody.appendChild(row);
+    });
+}
