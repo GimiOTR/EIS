@@ -491,7 +491,17 @@ function displayAvailableCourses(courses) {
     `).join('');
 }
 
+// Setup Course Management Handlers
 function setupCourseManagementHandlers(program) {
+    // Clone the form to remove existing event listeners
+    const editForm = document.getElementById('editProgramCourse');
+    const newEditForm = editForm.cloneNode(true);
+    editForm.parentNode.replaceChild(newEditForm, editForm);
+
+    const addForm = document.getElementById('addCourseToProgram');
+    const newAddForm = addForm.cloneNode(true);
+    addForm.parentNode.replaceChild(newAddForm, addForm);
+
     // Edit Course Handler
     document.querySelectorAll('.edit-program-course').forEach(button => {
         button.addEventListener('click', () => {
@@ -519,8 +529,7 @@ function setupCourseManagementHandlers(program) {
     });
 
     // Edit Form Submit Handler
-    const editForm = document.getElementById('editProgramCourse');
-    editForm.addEventListener('submit', async (event) => {
+    newEditForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         
         const courseDetails = {
@@ -536,8 +545,7 @@ function setupCourseManagementHandlers(program) {
     });
 
     // Add Form Submit Handler
-    const addForm = document.getElementById('addCourseToProgram');
-    addForm.addEventListener('submit', async (event) => {
+    newAddForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         
         const courseDetails = {
