@@ -172,7 +172,7 @@ function createManageCoursesModal(program) {
                                         <div class="form-group">
                                             <label>Credits</label>
                                             <input type="number" class="form-control" id="editCourseCredits" 
-                                                required min="1" max="30">
+                                                required min="0" max="30">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -222,7 +222,7 @@ function createManageCoursesModal(program) {
                                         <div class="form-group">
                                             <label>Credits</label>
                                             <input type="number" class="form-control" id="courseCredits" 
-                                                required min="1" max="30">
+                                                required min="0" max="30">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
