@@ -66,7 +66,7 @@ async function loadCourses() {
 
         allCourses = await response.json();
         renderCourses(currentPage, pageSize);
-        createPaginationControls();
+        createPaginationControls(allCourses);
     } catch (error) {
         console.error('Error loading courses:', error);
     }
@@ -116,16 +116,17 @@ function renderCourses(page, size) {
 
         coursesTableBody.appendChild(row);
     });
+    setupSearchFunctionality(allCourses);
 }
 
 // Pagination Controls
-function createPaginationControls() {
+function createPaginationControls(courses) {
     const paginationControls = document.getElementById('paginationControls');
     if (!paginationControls) return;
 
     paginationControls.innerHTML = ''; // Clear existing controls
 
-    const totalPages = Math.ceil(allCourses.length / pageSize);
+    const totalPages = Math.ceil(courses.length / pageSize);
 
     for (let i = 1; i <= totalPages; i++) {
         const pageButton = document.createElement('button');
@@ -290,9 +291,12 @@ function setupSearchFunctionality(courses) {
     const searchInput = document.getElementById('courseSearchInput');
     if (!searchInput) return;
 
-    searchInput.addEventListener('input', (e) => {
+    searchInput.addEventListener('keyup', e => {
         const searchTerm = e.target.value.toLowerCase();
         filterCourses(courses, searchTerm);
+
+        currentPage = 1;
+        updateActiveButton();
     });
 }
 
@@ -312,7 +316,12 @@ function filterCourses(courses, searchTerm) {
         return;
     }
 
-    filteredCourses.forEach(course => {
+    // Slice the filtered courses by the current page and page size
+    const start = (currentPage - 1) * pageSize;
+    const end = start + pageSize;
+    const paginatedCourses = filteredCourses.slice(start, end);
+
+    paginatedCourses.forEach(course => {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${course.code}</td>
@@ -341,4 +350,6 @@ function filterCourses(courses, searchTerm) {
 
         coursesTableBody.appendChild(row);
     });
+
+    createPaginationControls(filteredCourses);
 }
