@@ -20,6 +20,10 @@ namespace EIS.Infrastructure.Data
                 .HasIndex(c => c.Code)
                 .IsUnique();
 
+            builder.Entity<Course>()
+                .HasIndex(c => c.Name)
+                .IsUnique();
+
             builder.Entity<StudyProgram>()
                 .HasIndex(p => new { p.Code, p.Level })
                 .IsUnique();
