@@ -623,9 +623,9 @@ Page container
   clear: both;
 }
 
-.page-header-fixed .page-container {
+/* .page-header-fixed .page-container {
   margin-top: 42px;  
-}
+} */
 
 /*** IE 8 Fixes ***/
 /***

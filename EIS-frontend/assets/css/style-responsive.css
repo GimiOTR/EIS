@@ -591,9 +591,9 @@ Up To Medium Devices
 		padding: 0 !important;
 	}
 
- 	.page-header-fixed.page-header-fixed-mobile .page-container {
+ 	/* .page-header-fixed.page-header-fixed-mobile .page-container {
  		margin-top: 42px !important;
- 	}
+ 	} */
 
 	/***
   	Page content
