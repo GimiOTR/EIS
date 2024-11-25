@@ -129,8 +129,9 @@ function createPaginationControls() {
 
     for (let i = 1; i <= totalPages; i++) {
         const pageButton = document.createElement('button');
-        pageButton.className = 'btn btn-secondary btn-sm';
+        pageButton.className = 'btn btn-outline-primary btn-lg';
         pageButton.innerText = i;
+        pageButton.style.marginRight = '5px';
         pageButton.addEventListener('click', () => {
             currentPage = i;
             renderCourses(currentPage, pageSize);
@@ -283,12 +284,12 @@ async function handleDeleteCourse(courseCode) {
             alert(`Failed to delete course: ${error.message}`);
         }
     }
-} 
+}
 
 function setupSearchFunctionality(courses) {
     const searchInput = document.getElementById('courseSearchInput');
     if (!searchInput) return;
-    
+
     searchInput.addEventListener('input', (e) => {
         const searchTerm = e.target.value.toLowerCase();
         filterCourses(courses, searchTerm);
@@ -296,16 +297,16 @@ function setupSearchFunctionality(courses) {
 }
 
 function filterCourses(courses, searchTerm) {
-    const filteredCourses = courses.filter(course => 
-        course.code.toLowerCase().includes(searchTerm) || 
+    const filteredCourses = courses.filter(course =>
+        course.code.toLowerCase().includes(searchTerm) ||
         course.name.toLowerCase().includes(searchTerm)
     );
-    
+
     const coursesTableBody = document.getElementById('coursesTableBody');
     if (!coursesTableBody) return;
 
     coursesTableBody.innerHTML = '';
-    
+
     if (filteredCourses.length === 0) {
         coursesTableBody.innerHTML = '<tr><td colspan="3" class="text-center">No matching courses found</td></tr>';
         return;
@@ -330,7 +331,7 @@ function filterCourses(courses, searchTerm) {
         `;
 
         const deleteBtn = row.querySelector('.delete-course');
-        deleteBtn.addEventListener('click', function() {
+        deleteBtn.addEventListener('click', function () {
             const courseCode = this.getAttribute('data-code');
             handleDeleteCourse(courseCode);
         });

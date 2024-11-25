@@ -308,21 +308,23 @@ function displayProgramCourses(courses) {
                         <td>${course.credits}</td>
                         <td>${course.type}</td>
                         <td>
-                            <button class="btn btn-warning btn-sm edit-program-course me-2" 
-                                style="width: 75px;"
-                                data-course-code="${course.courseCode}"
-                                data-course-name="${course.courseName}"
-                                data-ects="${course.ects}"
-                                data-credits="${course.credits}"
-                                data-semester="${course.semester}"
-                                data-type="${course.type}">
-                                Edit
-                            </button>
-                            <button class="btn btn-danger btn-sm remove-program-course" 
-                                style="width: 75px;"
-                                data-course-code="${course.courseCode}">
-                                Remove
-                            </button>
+                            <div class="d-flex">
+                                <button class="btn btn-warning btn-sm edit-program-course mr-2" 
+                                    style="width: 75px;"
+                                    data-course-code="${course.courseCode}"
+                                    data-course-name="${course.courseName}"
+                                    data-ects="${course.ects}"
+                                    data-credits="${course.credits}"
+                                    data-semester="${course.semester}"
+                                    data-type="${course.type}">
+                                    Edit
+                                </button>
+                                <button class="btn btn-danger btn-sm remove-program-course" 
+                                    style="width: 75px;"
+                                    data-course-code="${course.courseCode}">
+                                    Remove
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 `).join('')}
