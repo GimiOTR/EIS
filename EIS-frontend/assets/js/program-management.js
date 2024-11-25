@@ -179,9 +179,9 @@ function createManageCoursesModal(program) {
                                         <div class="form-group">
                                             <label>Semester</label>
                                             <select class="form-control" id="editCourseSemester" required>
-                                                ${[1,2,3,4,5,6].map(num => 
-                                                    `<option value="${num}">${num}</option>`
-                                                ).join('')}
+                                                ${[1, 2, 3, 4, 5, 6].map(num =>
+        `<option value="${num}">${num}</option>`
+    ).join('')}
                                             </select>
                                         </div>
                                     </div>
@@ -229,9 +229,9 @@ function createManageCoursesModal(program) {
                                         <div class="form-group">
                                             <label>Semester</label>
                                             <select class="form-control" id="courseSemester" required>
-                                                ${[1,2,3,4,5,6].map(num => 
-                                                    `<option value="${num}">${num}</option>`
-                                                ).join('')}
+                                                ${[1, 2, 3, 4, 5, 6].map(num =>
+        `<option value="${num}">${num}</option>`
+    ).join('')}
                                             </select>
                                         </div>
                                     </div>
@@ -275,7 +275,19 @@ async function loadProgramCourses(program) {
 
 function displayProgramCourses(courses) {
     const container = document.getElementById('programCoursesList');
-    container.innerHTML = `
+
+    // Group courses by semester
+    const coursesBySemester = courses.reduce((acc, course) => {
+        if (!acc[course.semester]) {
+            acc[course.semester] = [];
+        }
+        acc[course.semester].push(course);
+        return acc;
+    }, {});
+
+    // Generate HTML
+    container.innerHTML = Object.keys(coursesBySemester).map(semester => `
+        <h3>Semester ${semester}</h3>
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -283,19 +295,17 @@ function displayProgramCourses(courses) {
                     <th>Name</th>
                     <th>ECTS</th>
                     <th>Credits</th>
-                    <th>Semester</th>
                     <th>Type</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                ${courses.map(course => `
+                ${coursesBySemester[semester].map(course => `
                     <tr>
                         <td>${course.courseCode}</td>
                         <td>${course.courseName}</td>
                         <td>${course.ects}</td>
                         <td>${course.credits}</td>
-                        <td>${course.semester}</td>
                         <td>${course.type}</td>
                         <td>
                             <button class="btn btn-warning btn-sm edit-program-course me-2" 
@@ -318,7 +328,7 @@ function displayProgramCourses(courses) {
                 `).join('')}
             </tbody>
         </table>
-    `;
+    `).join('');
 }
 
 async function loadAvailableCourses(program) {
@@ -326,9 +336,9 @@ async function loadAvailableCourses(program) {
         const response = await fetch(`${apiBaseUrl}/api/course-programs/${program.code}/${program.level}/unassigned`);
         if (!response.ok) throw new Error('Failed to fetch available courses');
         const courses = await response.json();
-        
+
         window.availableCourses = courses;
-        
+
         displayAvailableCourses(courses);
         setupSearchFunctionality(courses);
     } catch (error) {
@@ -531,7 +541,7 @@ function setupCourseManagementHandlers(program) {
     // Edit Form Submit Handler
     newEditForm.addEventListener('submit', async (event) => {
         event.preventDefault();
-        
+
         const courseDetails = {
             ects: parseInt(document.getElementById('editCourseEcts').value),
             credits: parseInt(document.getElementById('editCourseCredits').value),
@@ -547,7 +557,7 @@ function setupCourseManagementHandlers(program) {
     // Add Form Submit Handler
     newAddForm.addEventListener('submit', async (event) => {
         event.preventDefault();
-        
+
         const courseDetails = {
             ects: parseInt(document.getElementById('courseEcts').value),
             credits: parseInt(document.getElementById('courseCredits').value),
@@ -565,11 +575,11 @@ function showAddForm(courseCode, courseName) {
     const addForm = document.getElementById('addFormSection');
     addForm.style.display = 'block';
     document.getElementById('addCourseCode').value = courseCode;
-    
+
     // Update the form header to include course details
-    document.getElementById('addFormHeader').innerHTML = 
+    document.getElementById('addFormHeader').innerHTML =
         `Add Course to Program - ${courseCode} ${courseName}`;
-    
+
     addForm.scrollIntoView({ behavior: 'smooth' });
 }
 
@@ -664,18 +674,18 @@ async function removeCourseFromProgram(program, courseCode) {
 function showEditForm(courseData) {
     const editForm = document.getElementById('editFormSection');
     editForm.style.display = 'block';
-    
+
     // Update the form header to include course details
-    document.getElementById('editFormHeader').innerHTML = 
+    document.getElementById('editFormHeader').innerHTML =
         `Edit Course Details - ${courseData.courseCode} ${courseData.courseName}`;
-    
+
     // Populate form fields
     document.getElementById('editCourseEcts').value = courseData.ects;
     document.getElementById('editCourseCredits').value = courseData.credits;
     document.getElementById('editCourseSemester').value = courseData.semester;
     document.getElementById('editCourseType').value = courseData.type;
     document.getElementById('editCourseCode').value = courseData.courseCode;
-    
+
     editForm.scrollIntoView({ behavior: 'smooth' });
 }
 
@@ -692,8 +702,8 @@ function setupSearchFunctionality(courses) {
 }
 
 function filterCourses(courses, searchTerm) {
-    const filteredCourses = courses.filter(course => 
-        course.code.toLowerCase().includes(searchTerm) || 
+    const filteredCourses = courses.filter(course =>
+        course.code.toLowerCase().includes(searchTerm) ||
         course.name.toLowerCase().includes(searchTerm)
     );
     displayAvailableCourses(filteredCourses);
