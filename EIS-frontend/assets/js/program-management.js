@@ -554,6 +554,7 @@ function setupCourseManagementHandlers(program) {
 
         await updateProgramCourse(program, courseCode, courseDetails);
         hideEditForm();
+        setupCourseManagementHandlers(program);
     });
 
     // Add Form Submit Handler
