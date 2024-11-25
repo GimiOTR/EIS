@@ -4,6 +4,13 @@ const API_BASE_URL = 'https://localhost:7173';
 // Load academic years on page load
 document.addEventListener('DOMContentLoaded', loadAcademicYears);
 
+// Create toast container when page loads
+document.addEventListener('DOMContentLoaded', () => {
+  const toastContainer = document.createElement('div');
+  toastContainer.id = 'toast-container';
+  document.body.appendChild(toastContainer);
+});
+
 async function loadAcademicYears() {
     try {
         const response = await fetch(`${API_BASE_URL}/api/years`);
@@ -11,7 +18,7 @@ async function loadAcademicYears() {
         updateAcademicYearList(academicYears);
     } catch (error) {
         console.error('Error loading academic years:', error);
-        alert('Failed to load academic years');
+        showAlert('Failed to load academic years');
     }
 }
 
@@ -46,7 +53,6 @@ function updateAcademicYearList(academicYears) {
                     </button>
                 </div>
             </div>
-            <button class="btn btn-primary btn-sm" onclick="handleEdit(${year.startYear}, ${year.endYear})">Edit</button>
         `;
         list.appendChild(li);
         
@@ -89,23 +95,22 @@ function updateCurrentYearDisplay(currentYear) {
 document.getElementById('add-academic-year-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const yearInput = document.getElementById('academic-year');
-    const yearValue = yearInput.value.trim();
-    
-    // Validate input format (e.g., "2024-2025")
-    const yearParts = yearValue.split('-');
-    if (yearParts.length !== 2) {
-        alert('Please enter the academic year in format: YYYY-YYYY');
-        return;
-    }
-
-    const startYear = parseInt(yearParts[0]);
-    const endYear = parseInt(yearParts[1]);
+    const startYear = parseInt(yearInput.value.trim());
 
     // Basic validation
-    if (isNaN(startYear) || isNaN(endYear) || endYear !== startYear + 1) {
-        alert('Invalid academic year format. End year should be start year + 1');
+    if (isNaN(startYear)) {
+        showAlert('Please enter a valid start year');
         return;
     }
+
+    // Check if current year's semesters are finalized
+    const currentYear = await getCurrentYear();
+    if (currentYear && (!currentYear.fallSemesterFinalized || !currentYear.springSemesterFinalized)) {
+        showAlert('Cannot add a new academic year while the current year semesters are open');
+        return;
+    }
+
+    const endYear = startYear + 1;
 
     try {
         const response = await fetch(`${API_BASE_URL}/api/years`, {
@@ -123,59 +128,25 @@ document.getElementById('add-academic-year-form').addEventListener('submit', asy
         
         yearInput.value = '';
         await loadAcademicYears();
-        alert('Academic year added successfully');
+        showAlert('Academic year added successfully');
     } catch (error) {
         console.error('Error adding academic year:', error);
-        alert('Failed to add academic year');
+        showAlert('Failed to add academic year');
     }
 });
 
-async function handleEdit(currentStartYear, currentEndYear) {
-    // First, get the current academic year details
+// Helper function to get the current year
+async function getCurrentYear() {
     try {
-        const getResponse = await fetch(`${API_BASE_URL}/api/years/${currentStartYear}`);
-        if (!getResponse.ok) throw new Error('Failed to get academic year details');
+        const response = await fetch(`${API_BASE_URL}/api/years`);
+        if (!response.ok) throw new Error('Failed to fetch academic years');
         
-        const currentYear = await getResponse.json();
-        
-        // Prompt for new values
-        const newYearInput = prompt('Enter new academic year (YYYY-YYYY):', `${currentYear.startYear}-${currentYear.endYear}`);
-        if (!newYearInput) return;
-
-        const yearParts = newYearInput.split('-');
-        if (yearParts.length !== 2) {
-            alert('Please enter the academic year in format: YYYY-YYYY');
-            return;
-        }
-
-        const startYear = parseInt(yearParts[0]);
-        const endYear = parseInt(yearParts[1]);
-
-        // Basic validation
-        if (isNaN(startYear) || isNaN(endYear) || endYear !== startYear + 1) {
-            alert('Invalid academic year format. End year should be start year + 1');
-            return;
-        }
-
-        // Send PUT request
-        const putResponse = await fetch(`${API_BASE_URL}/api/years/${currentStartYear}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                fallSemesterFinalized: currentYear.fallSemesterFinalized,
-                springSemesterFinalized: currentYear.springSemesterFinalized
-            })
-        });
-        
-        if (!putResponse.ok) throw new Error('Failed to update academic year');
-        
-        await loadAcademicYears();
-        alert('Academic year updated successfully');
+        const academicYears = await response.json();
+        const sortedYears = [...academicYears].sort((a, b) => b.startYear - a.startYear);
+        return sortedYears[0]; // Return the latest year
     } catch (error) {
-        console.error('Error updating academic year:', error);
-        alert('Failed to update academic year');
+        console.error('Error fetching current year:', error);
+        return null;
     }
 }
 
@@ -212,9 +183,56 @@ async function toggleSemester(startYear, semester, finalized) {
         // Show success message
         const semesterDisplay = semester.charAt(0).toUpperCase() + semester.slice(1);
         const statusDisplay = finalized ? 'finalized' : 'opened';
-        alert(`${semesterDisplay} semester successfully ${statusDisplay}`);
+        showAlert(`${semesterDisplay} semester successfully ${statusDisplay}`);
     } catch (error) {
         console.error('Error updating semester status:', error);
-        alert(`Failed to update semester status: ${error.message}`);
+        showAlert(`Failed to update semester status: ${error.message}`);
     }
+}
+
+function showAlert(message, type = 'info') {
+  const container = document.getElementById('toast-container');
+  const alertDiv = document.createElement('div');
+  
+  alertDiv.className = `alert-toast ${type}`;
+  alertDiv.innerHTML = `
+    <div class="alert-content">
+      <i class="fas ${getAlertIcon(type)}"></i>
+      <span>${message}</span>
+    </div>
+    <button class="close-btn" onclick="removeToast(this.parentElement)">×</button>
+  `;
+  
+  container.appendChild(alertDiv);
+  repositionToasts();
+  
+  // Auto remove after 5 seconds
+  setTimeout(() => removeToast(alertDiv), 5000);
+}
+
+function removeToast(toast) {
+  toast.classList.add('fade-out');
+  setTimeout(() => {
+    toast.remove();
+    repositionToasts();
+  }, 300);
+}
+
+function repositionToasts() {
+  const toasts = document.querySelectorAll('.alert-toast');
+  let offset = 20;
+  
+  toasts.forEach(toast => {
+    toast.style.top = offset + 'px';
+    offset += toast.offsetHeight + 10; // 10px gap between toasts
+  });
+}
+
+function getAlertIcon(type) {
+  switch(type) {
+    case 'success': return 'fa-check-circle';
+    case 'error': return 'fa-exclamation-circle'; 
+    case 'warning': return 'fa-exclamation-triangle';
+    default: return 'fa-info-circle';
+  }
 }

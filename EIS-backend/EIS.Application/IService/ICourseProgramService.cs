@@ -14,5 +14,6 @@ namespace EIS.Application.IService
         Task<BaseResponse> RemoveCourseFromProgram(string courseCode, string programCode, string programLevel);
         Task<BaseResponse> UpdateCourseForProgram(CourseProgramRequestDTO courseProgramRequestDTO);
         Task<IEnumerable<CourseProgramResponseDTO>> GetAllCoursesForProgram(string programCode, string programLevel);
+        Task<IEnumerable<CourseResponseDTO>> GetUnassignedCoursesForProgram(string programCode, string programLevel);
     }
 }

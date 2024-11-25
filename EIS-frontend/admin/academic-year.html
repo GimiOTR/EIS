@@ -15,9 +15,9 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/style-metronic.css">
     <link rel="stylesheet" href="../assets/css/style-responsive.css">
+    
     <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet" type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
     <link rel="icon" type="image/x-icon" href="../assets/img/favicon.ico">
 
 </head>
@@ -104,9 +104,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <!-- Current Academic Year Banner -->
-                        <div id="current-year-display" class="current-year-banner" style="background-color: #e8f5e9; padding: 10px; margin-bottom: 20px; border-left: 4px solid #4caf50;">
-                            Current Academic Year: 2024-2025
-                        </div>
+                        <div id="current-year-display" class="current-year-banner" style="background-color: #e8f5e9; padding: 10px; margin-bottom: 20px; border-left: 4px solid #4caf50;"></div>
 
                         <!-- Add New Academic Year Section -->
                         <div class="add-academic-year" style="background-color: white; padding: 20px; border-radius: 4px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.12);">
@@ -117,8 +115,8 @@
                                            id="academic-year" 
                                            name="academic-year" 
                                            class="form-control" 
-                                           placeholder="Add new academic year (YYYY-YYYY)" 
-                                           pattern="\d{4}-\d{4}"
+                                           placeholder="Add new academic year (YYYY, Only Start Year)" 
+                                           pattern="\d{4}"
                                            required>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Add</button>
