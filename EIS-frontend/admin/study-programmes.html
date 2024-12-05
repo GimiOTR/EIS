@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Study Programmes</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap-grid.css" />
+    <link
+      rel="stylesheet"
+      href="../assets/bootstrap/css/bootstrap-reboot.css"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/login.css" />
+    <link rel="stylesheet" href="../assets/css/custom.css" />
+    <link rel="stylesheet" href="../assets/css/light.css" />
+    <link rel="stylesheet" href="../assets/css/plugins.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/style-metronic.css" />
+    <link rel="stylesheet" href="../assets/css/style-responsive.css" />
+    <!-- Font Awesome -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../assets/img/favicon.ico" />
+  </head>
+
+  <body class="page-header-fixed custom-theme">
+    <!-- BEGIN TOP NAVIGATION BAR -->
+    <div class="header navbar navbar-fixed-top">
+      <div
+        class="header navbar navbar-fixed-top"
+        style="background-color: #00458c !important"
+      >
+        <div class="header-inner">
+          <a class="navbar-brand" href="admin.html">
+            <img
+              style="height: 100%"
+              src="../assets/img/eis_logo.svg"
+              alt="logo"
+            />
+          </a>
+        </div>
+      </div>
+      <!-- END TOP NAVIGATION BAR -->
+    </div>
+
+    <div class="page-container" style="background-color: whitesmoke">
+      <!-- BEGIN SIDEBAR -->
+      <div class="page-sidebar-wrapper">
+        <div class="page-sidebar navbar">
+          <ul
+            class="page-sidebar-menu"
+            data-auto-scroll="true"
+            data-slide-speed="200"
+          >
+            <li id="1">
+              <a href="admin.html">
+                <i class="fa fa-home"></i>
+                <span class="title">Home</span>
+                <span class="selected"></span>
+              </a>
+            </li>
+            <li id="20">
+              <a href="academic-year.html">
+                <i class="fa fa-user"></i>
+                <span class="title">Academic Year</span>
+              </a>
+            </li>
+            <li id="7">
+              <a href="courses.html">
+                <i class="fa fa-files-o"></i>
+                <span class="title">Courses</span>
+              </a>
+            </li>
+            <li id="31">
+              <a href="study-programmes.html">
+                <i class="fa fa-book"></i>
+                <span class="title">Study Programs</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- END SIDEBAR -->
+
+      <!-- BEGIN CONTENT -->
+      <div class="page-content-wrapper">
+        <div class="page-content" style="min-height: 1243px !important">
+          <div class="row">
+            <div class="col-md-12">
+              <h3 class="page-title">Manage Study Programmes</h3>
+              <ul class="page-breadcrumb breadcrumb">
+                <li>
+                  <i class="fa fa-home"></i>
+                  <a href="admin.html">Home</a>
+                  <i class="fa fa-angle-right"></i>
+                </li>
+                <li>
+                  <a href="study-programmes.html">Study Programmes</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <section class="manage-study-programmes">
+                <h2>Study Programmes List</h2>
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Programme Code</th>
+                      <th>Programme Name</th>
+                      <th>Level</th>
+                      <th>Courses</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="programsTableBody">
+                    <!-- Dynamic rows -->
+                  </tbody>
+                </table>
+                <button
+                  class="btn btn-primary"
+                  data-toggle="modal"
+                  data-target="#addProgrammeModal"
+                >
+                  Add New Programme
+                </button>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END CONTENT -->
+    </div>
+
+    <!-- Add Programme Modal -->
+    <div
+      class="modal fade"
+      id="addProgrammeModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="addProgrammeModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addProgrammeModalLabel">
+              Add New Programme
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="addProgramForm">
+              <div class="form-group">
+                <label for="programCode">Programme Code</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="programCode"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="programName">Programme Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="programName"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="programLevel">Level</label>
+                <select class="form-control" id="programLevel" required>
+                  <option value="BA">BA</option>
+                  <option value="MSc">MSc</option>
+                  <option value="PhD">PhD</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary">
+                Add Programme
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- View Courses Modal -->
+    <div
+      class="modal fade"
+      id="viewCoursesModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="viewCoursesModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="viewCoursesModalLabel">
+              Programme Courses
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h6 id="programDetailsHeader"></h6>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Course Code</th>
+                  <th>Type</th>
+                  <th>Credits</th>
+                  <th>Semester</th>
+                </tr>
+              </thead>
+              <tbody id="programCoursesTableBody">
+                <!-- Course details -->
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../assets/js/program-management.js"></script>
+  </body>
+</html>
