@@ -1,82 +1,78 @@
-const apiBaseUrl = 'https://localhost:7173';
+const apiBaseUrl = "https://localhost:7173";
 
-// Initial Setup
-document.addEventListener('DOMContentLoaded', () => {
-    setupAddProgramForm();
-    if (document.getElementById('programsTableBody')) {
-        loadPrograms();
-    }
+document.addEventListener("DOMContentLoaded", () => {
+  setupAddProgramForm();
+  if (document.getElementById("programsTableBody")) {
+    loadPrograms();
+  }
 });
 
-// Setup the Add Program Form
 function setupAddProgramForm() {
-    const form = document.getElementById('addProgramForm');
-    if (form) {
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const programData = {
-                code: document.getElementById('programCode').value,
-                name: document.getElementById('programName').value,
-                level: document.getElementById('programLevel').value,
-            };
-            await createProgram(programData);
-            form.reset();
-            await loadPrograms();
-        });
-    }
+  const form = document.getElementById("addProgramForm");
+  if (form) {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const programData = {
+        code: document.getElementById("programCode").value,
+        name: document.getElementById("programName").value,
+        level: document.getElementById("programLevel").value,
+      };
+      await createProgram(programData);
+      form.reset();
+      await loadPrograms();
+    });
+  }
 }
 
-// Create a new Program
 async function createProgram(programData) {
-    try {
-        const response = await fetch(`${apiBaseUrl}/api/programs`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(programData),
-        });
+  try {
+    const response = await fetch(`${apiBaseUrl}/api/programs`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(programData),
+    });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(Object.values(errorData.errors).flat().join('\n'));
-        }
-
-        alert('Program created successfully');
-    } catch (error) {
-        console.error('Error creating program:', error);
-        alert('Error creating program: ' + error.message);
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(Object.values(errorData.errors).flat().join("\n"));
     }
+
+    alert("Program created successfully");
+  } catch (error) {
+    console.error("Error creating program:", error);
+    alert("Error creating program: " + error.message);
+  }
 }
 
 // Load all Programs
 async function loadPrograms() {
-    try {
-        const response = await fetch(`${apiBaseUrl}/api/programs`);
-        if (!response.ok) {
-            throw new Error('Failed to fetch programs');
-        }
-        const programs = await response.json();
-        updateProgramsTable(programs);
-    } catch (error) {
-        console.error('Error loading programs:', error);
-        alert('Error loading programs: ' + error.message);
+  try {
+    const response = await fetch(`${apiBaseUrl}/api/programs`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch programs");
     }
+    const programs = await response.json();
+    updateProgramsTable(programs);
+  } catch (error) {
+    console.error("Error loading programs:", error);
+    alert("Error loading programs: " + error.message);
+  }
 }
 
-// Update the Programs Table
 function updateProgramsTable(programs) {
-    const tableBody = document.getElementById('programsTableBody');
-    tableBody.innerHTML = '';
+  const tableBody = document.getElementById("programsTableBody");
+  tableBody.innerHTML = "";
 
-    programs.forEach(program => {
-        const row = createProgramRow(program);
-        tableBody.appendChild(row);
-    });
+  programs.forEach((program) => {
+    const row = createProgramRow(program);
+    tableBody.appendChild(row);
+  });
 }
 
 // Create a table row for a Program
 function createProgramRow(program) {
-    const row = document.createElement('tr');
-    row.innerHTML = `
+  const row = document.createElement("tr");
+  row.innerHTML = `
         <td>${program.code}</td>
         <td>${program.name}</td>
         <td>${program.level}</td>
@@ -94,32 +90,43 @@ function createProgramRow(program) {
             </button>
         </td>
     `;
-    attachProgramRowEventListeners(row, program);
-    return row;
+  attachProgramRowEventListeners(row, program);
+  return row;
 }
 
 // Attach event listeners to Program row buttons
 function attachProgramRowEventListeners(row, program) {
-    row.querySelector('.manage-courses').addEventListener('click', () => handleManageCourses(program));
-    row.querySelector('.edit-program').addEventListener('click', () => handleEditProgram(program));
-    row.querySelector('.delete-program').addEventListener('click', () => handleDeleteProgram(program.code, program.level));
+  row
+    .querySelector(".manage-courses")
+    .addEventListener("click", () => handleManageCourses(program));
+  row
+    .querySelector(".edit-program")
+    .addEventListener("click", () => handleEditProgram(program));
+  row
+    .querySelector(".delete-program")
+    .addEventListener("click", () =>
+      handleDeleteProgram(program.code, program.level)
+    );
 }
 
 async function handleManageCourses(program) {
-    const modalHtml = createManageCoursesModal(program);
-    showModal(modalHtml, 'manageCoursesModal');
-    await loadProgramCourses(program);
-    await loadAvailableCourses(program);
-    setupCourseManagementHandlers(program);
+  const modalHtml = createManageCoursesModal(program);
+  showModal(modalHtml, "manageCoursesModal");
+  await loadProgramCourses(program);
+  await loadAvailableCourses(program);
+  setupCourseManagementHandlers(program);
 }
 
+// Create the HTML for the manage courses modal
 function createManageCoursesModal(program) {
-    return `
+  return `
         <div class="modal fade" id="manageCoursesModal" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Manage Courses - ${program.code} (${program.level})</h5>
+                        <h5 class="modal-title">Manage Courses - ${
+                          program.code
+                        } (${program.level})</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span>&times;</span>
                         </button>
@@ -179,9 +186,12 @@ function createManageCoursesModal(program) {
                                         <div class="form-group">
                                             <label>Semester</label>
                                             <select class="form-control" id="editCourseSemester" required>
-                                                ${[1, 2, 3, 4, 5, 6].map(num =>
-        `<option value="${num}">${num}</option>`
-    ).join('')}
+                                                ${[1, 2, 3, 4, 5, 6]
+                                                  .map(
+                                                    (num) =>
+                                                      `<option value="${num}">${num}</option>`
+                                                  )
+                                                  .join("")}
                                             </select>
                                         </div>
                                     </div>
@@ -229,9 +239,12 @@ function createManageCoursesModal(program) {
                                         <div class="form-group">
                                             <label>Semester</label>
                                             <select class="form-control" id="courseSemester" required>
-                                                ${[1, 2, 3, 4, 5, 6].map(num =>
-        `<option value="${num}">${num}</option>`
-    ).join('')}
+                                                ${[1, 2, 3, 4, 5, 6]
+                                                  .map(
+                                                    (num) =>
+                                                      `<option value="${num}">${num}</option>`
+                                                  )
+                                                  .join("")}
                                             </select>
                                         </div>
                                     </div>
@@ -262,31 +275,35 @@ function createManageCoursesModal(program) {
 }
 
 async function loadProgramCourses(program) {
-    try {
-        const response = await fetch(`${apiBaseUrl}/api/course-programs/${program.code}/${program.level}/assigned`);
-        if (!response.ok) throw new Error('Failed to fetch program courses');
-        const courses = await response.json();
-        displayProgramCourses(courses);
-    } catch (error) {
-        console.error('Error loading program courses:', error);
-        alert('Error loading program courses: ' + error.message);
-    }
+  try {
+    const response = await fetch(
+      `${apiBaseUrl}/api/course-programs/${program.code}/${program.level}/assigned`
+    );
+    if (!response.ok) throw new Error("Failed to fetch program courses");
+    const courses = await response.json();
+    displayProgramCourses(courses);
+  } catch (error) {
+    console.error("Error loading program courses:", error);
+    alert("Error loading program courses: " + error.message);
+  }
 }
 
 function displayProgramCourses(courses) {
-    const container = document.getElementById('programCoursesList');
+  const container = document.getElementById("programCoursesList");
 
-    // Group courses by semester
-    const coursesBySemester = courses.reduce((acc, course) => {
-        if (!acc[course.semester]) {
-            acc[course.semester] = [];
-        }
-        acc[course.semester].push(course);
-        return acc;
-    }, {});
+  // Group courses by semester
+  const coursesBySemester = courses.reduce((acc, course) => {
+    if (!acc[course.semester]) {
+      acc[course.semester] = [];
+    }
+    acc[course.semester].push(course);
+    return acc;
+  }, {});
 
-    // Generate HTML
-    container.innerHTML = Object.keys(coursesBySemester).map(semester => `
+  // Generate HTML
+  container.innerHTML = Object.keys(coursesBySemester)
+    .map(
+      (semester) => `
         <h3>Semester ${semester}</h3>
         <table class="table table-hover">
             <thead>
@@ -300,7 +317,9 @@ function displayProgramCourses(courses) {
                 </tr>
             </thead>
             <tbody>
-                ${coursesBySemester[semester].map(course => `
+                ${coursesBySemester[semester]
+                  .map(
+                    (course) => `
                     <tr>
                         <td>${course.courseCode}</td>
                         <td>${course.courseName}</td>
@@ -327,38 +346,44 @@ function displayProgramCourses(courses) {
                             </div>
                         </td>
                     </tr>
-                `).join('')}
+                `
+                  )
+                  .join("")}
             </tbody>
         </table>
-    `).join('');
+    `
+    )
+    .join("");
 }
 
 async function loadAvailableCourses(program) {
-    try {
-        const response = await fetch(`${apiBaseUrl}/api/course-programs/${program.code}/${program.level}/unassigned`);
-        if (!response.ok) throw new Error('Failed to fetch available courses');
-        const courses = await response.json();
+  try {
+    const response = await fetch(
+      `${apiBaseUrl}/api/course-programs/${program.code}/${program.level}/unassigned`
+    );
+    if (!response.ok) throw new Error("Failed to fetch available courses");
+    const courses = await response.json();
 
-        window.availableCourses = courses;
+    window.availableCourses = courses;
 
-        displayAvailableCourses(courses);
-        setupSearchFunctionality(courses);
-    } catch (error) {
-        console.error('Error loading available courses:', error);
-        alert('Error loading available courses: ' + error.message);
-    }
+    displayAvailableCourses(courses);
+    setupSearchFunctionality(courses);
+  } catch (error) {
+    console.error("Error loading available courses:", error);
+    alert("Error loading available courses: " + error.message);
+  }
 }
 
 // Handle Editing a Program
 async function handleEditProgram(program) {
-    const modalHtml = createEditProgramModal(program);
-    showModal(modalHtml, 'editProgramModal');
-    setupEditProgramForm(program);
+  const modalHtml = createEditProgramModal(program);
+  showModal(modalHtml, "editProgramModal");
+  setupEditProgramForm(program);
 }
 
 // Create the Edit Program Modal HTML
 function createEditProgramModal(program) {
-    return `
+  return `
         <div class="modal fade" id="editProgramModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -372,18 +397,28 @@ function createEditProgramModal(program) {
                         <form id="editProgramForm">
                             <div class="form-group">
                                 <label for="editProgramCode">Program Code</label>
-                                <input type="text" class="form-control" id="editProgramCode" value="${program.code}" required>
+                                <input type="text" class="form-control" id="editProgramCode" value="${
+                                  program.code
+                                }" required>
                             </div>
                             <div class="form-group">
                                 <label for="editProgramName">Program Name</label>
-                                <input type="text" class="form-control" id="editProgramName" value="${program.name}" required>
+                                <input type="text" class="form-control" id="editProgramName" value="${
+                                  program.name
+                                }" required>
                             </div>
                             <div class="form-group">
                                 <label for="editProgramLevel">Program Level</label>
                                 <select class="form-control" id="editProgramLevel" required>
-                                    <option value="BA" ${program.level === 'BA' ? 'selected' : ''}>BA</option>
-                                    <option value="	MSc" ${program.level === '	MSc' ? 'selected' : ''}>MSc</option>
-                                    <option value="PhD" ${program.level === 'PhD' ? 'selected' : ''}>PhD</option>
+                                    <option value="BA" ${
+                                      program.level === "BA" ? "selected" : ""
+                                    }>BA</option>
+                                    <option value="	MSc" ${
+                                      program.level === "	MSc" ? "selected" : ""
+                                    }>MSc</option>
+                                    <option value="PhD" ${
+                                      program.level === "PhD" ? "selected" : ""
+                                    }>PhD</option>
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-primary">Update Program</button>
@@ -397,98 +432,111 @@ function createEditProgramModal(program) {
 
 // Setup the Edit Program Form
 function setupEditProgramForm(program) {
-    const form = document.getElementById('editProgramForm');
-    form.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        const updatedProgram = {
-            code: document.getElementById('editProgramCode').value,
-            name: document.getElementById('editProgramName').value,
-            level: document.getElementById('editProgramLevel').value,
-        };
-        await updateProgram(program, updatedProgram);
-        $('#editProgramModal').modal('hide');
-        await loadPrograms();
-    });
+  const form = document.getElementById("editProgramForm");
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const updatedProgram = {
+      code: document.getElementById("editProgramCode").value,
+      name: document.getElementById("editProgramName").value,
+      level: document.getElementById("editProgramLevel").value,
+    };
+    await updateProgram(program, updatedProgram);
+    $("#editProgramModal").modal("hide");
+    await loadPrograms();
+  });
 }
 
 // Update a Program
 async function updateProgram(originalProgram, updatedProgram) {
-    const submitButton = document.querySelector('#editProgramForm button[type="submit"]');
-    try {
-        // Show loading state
-        submitButton.disabled = true;
-        submitButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Updating...';
+  const submitButton = document.querySelector(
+    '#editProgramForm button[type="submit"]'
+  );
+  try {
+    // Show loading state
+    submitButton.disabled = true;
+    submitButton.innerHTML =
+      '<span class="spinner-border spinner-border-sm"></span> Updating...';
 
-        // Validate input
-        if (!updatedProgram.code.trim() || !updatedProgram.name.trim() || !updatedProgram.level) {
-            throw new Error('Program code, name, and level are required');
-        }
-
-        const response = await fetch(
-            `${apiBaseUrl}/api/programs/${encodeURIComponent(originalProgram.code)}/${encodeURIComponent(originalProgram.level)}`,
-            {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ...updatedProgram,
-                    code: updatedProgram.code.trim(),
-                    name: updatedProgram.name.trim()
-                })
-            }
-        );
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(Object.values(errorData.errors).flat().join('\n'));
-        }
-
-        alert('Program updated successfully');
-    } catch (error) {
-        console.error('Error updating program:', error);
-        alert('Error updating program: ' + error.message);
-    } finally {
-        // Reset loading state
-        submitButton.disabled = false;
-        submitButton.textContent = 'Update Program';
+    // Validate input
+    if (
+      !updatedProgram.code.trim() ||
+      !updatedProgram.name.trim() ||
+      !updatedProgram.level
+    ) {
+      throw new Error("Program code, name, and level are required");
     }
+
+    const response = await fetch(
+      `${apiBaseUrl}/api/programs/${encodeURIComponent(
+        originalProgram.code
+      )}/${encodeURIComponent(originalProgram.level)}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...updatedProgram,
+          code: updatedProgram.code.trim(),
+          name: updatedProgram.name.trim(),
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(Object.values(errorData.errors).flat().join("\n"));
+    }
+
+    alert("Program updated successfully");
+  } catch (error) {
+    console.error("Error updating program:", error);
+    alert("Error updating program: " + error.message);
+  } finally {
+    // Reset loading state
+    submitButton.disabled = false;
+    submitButton.textContent = "Update Program";
+  }
 }
 
 // Handle Deleting a Program
 async function handleDeleteProgram(programCode, programLevel) {
-    if (!confirm('Are you sure you want to delete this program?')) return;
+  if (!confirm("Are you sure you want to delete this program?")) return;
 
-    try {
-        const response = await fetch(
-            `${apiBaseUrl}/api/programs/${encodeURIComponent(programCode)}/${encodeURIComponent(programLevel)}`,
-            { method: 'DELETE' }
-        );
+  try {
+    const response = await fetch(
+      `${apiBaseUrl}/api/programs/${encodeURIComponent(
+        programCode
+      )}/${encodeURIComponent(programLevel)}`,
+      { method: "DELETE" }
+    );
 
-        if (!response.ok) {
-            const errorData = await response.text();
-            throw new Error(errorData || 'Failed to delete program');
-        }
-
-        alert('Program deleted successfully');
-        await loadPrograms();
-    } catch (error) {
-        console.error('Error deleting program:', error);
-        alert('Error deleting program: ' + error.message);
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(errorData || "Failed to delete program");
     }
+
+    alert("Program deleted successfully");
+    await loadPrograms();
+  } catch (error) {
+    console.error("Error deleting program:", error);
+    alert("Error deleting program: " + error.message);
+  }
 }
 
 // Show a Bootstrap Modal
 function showModal(modalHtml, modalId) {
-    const existingModal = document.getElementById(modalId);
-    if (existingModal) {
-        existingModal.remove();
-    }
-    document.body.insertAdjacentHTML('beforeend', modalHtml);
-    $(`#${modalId}`).modal('show');
+  const existingModal = document.getElementById(modalId);
+  if (existingModal) {
+    existingModal.remove();
+  }
+  document.body.insertAdjacentHTML("beforeend", modalHtml);
+  $(`#${modalId}`).modal("show");
 }
 
 function displayAvailableCourses(courses) {
-    const container = document.getElementById('availableCoursesBody');
-    container.innerHTML = courses.map(course => `
+  const container = document.getElementById("availableCoursesBody");
+  container.innerHTML = courses
+    .map(
+      (course) => `
         <tr>
             <td>${course.code}</td>
             <td>${course.name}</td>
@@ -500,215 +548,218 @@ function displayAvailableCourses(courses) {
                 </button>
             </td>
         </tr>
-    `).join('');
+    `
+    )
+    .join("");
 }
 
 // Setup Course Management Handlers
 function setupCourseManagementHandlers(program) {
-    // Clone the form to remove existing event listeners
-    const editForm = document.getElementById('editProgramCourse');
-    const newEditForm = editForm.cloneNode(true);
-    editForm.parentNode.replaceChild(newEditForm, editForm);
+  // Clone the form to remove existing event listeners
+  const editForm = document.getElementById("editProgramCourse");
+  const newEditForm = editForm.cloneNode(true);
+  editForm.parentNode.replaceChild(newEditForm, editForm);
 
-    const addForm = document.getElementById('addCourseToProgram');
-    const newAddForm = addForm.cloneNode(true);
-    addForm.parentNode.replaceChild(newAddForm, addForm);
+  const addForm = document.getElementById("addCourseToProgram");
+  const newAddForm = addForm.cloneNode(true);
+  addForm.parentNode.replaceChild(newAddForm, addForm);
 
-    // Edit Course Handler
-    document.querySelectorAll('.edit-program-course').forEach(button => {
-        button.addEventListener('click', () => {
-            const courseData = button.dataset;
-            showEditForm(courseData);
-        });
+  // Edit Course Handler
+  document.querySelectorAll(".edit-program-course").forEach((button) => {
+    button.addEventListener("click", () => {
+      const courseData = button.dataset;
+      showEditForm(courseData);
     });
+  });
 
-    // Remove Course Handler
-    document.querySelectorAll('.remove-program-course').forEach(button => {
-        button.addEventListener('click', () => {
-            const courseCode = button.dataset.courseCode;
-            removeCourseFromProgram(program, courseCode);
-        });
+  // Remove Course Handler
+  document.querySelectorAll(".remove-program-course").forEach((button) => {
+    button.addEventListener("click", () => {
+      const courseCode = button.dataset.courseCode;
+      removeCourseFromProgram(program, courseCode);
     });
+  });
 
-    // Add Course Handler
-    document.querySelectorAll('.add-to-program').forEach(button => {
-        button.addEventListener('click', () => {
-            showAddForm(
-                button.dataset.courseCode,
-                button.dataset.courseName
-            );
-        });
+  // Add Course Handler
+  document.querySelectorAll(".add-to-program").forEach((button) => {
+    button.addEventListener("click", () => {
+      showAddForm(button.dataset.courseCode, button.dataset.courseName);
     });
+  });
 
-    // Edit Form Submit Handler
-    newEditForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
+  // Edit Form Submit Handler
+  newEditForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-        const courseDetails = {
-            ects: parseInt(document.getElementById('editCourseEcts').value),
-            credits: parseInt(document.getElementById('editCourseCredits').value),
-            semester: parseInt(document.getElementById('editCourseSemester').value),
-            type: document.getElementById('editCourseType').value
-        };
-        const courseCode = document.getElementById('editCourseCode').value;
+    const courseDetails = {
+      ects: parseInt(document.getElementById("editCourseEcts").value),
+      credits: parseInt(document.getElementById("editCourseCredits").value),
+      semester: parseInt(document.getElementById("editCourseSemester").value),
+      type: document.getElementById("editCourseType").value,
+    };
+    const courseCode = document.getElementById("editCourseCode").value;
 
-        await updateProgramCourse(program, courseCode, courseDetails);
-        hideEditForm();
-        setupCourseManagementHandlers(program);
-    });
+    await updateProgramCourse(program, courseCode, courseDetails);
+    hideEditForm();
+    setupCourseManagementHandlers(program);
+  });
 
-    // Add Form Submit Handler
-    newAddForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
+  // Add Form Submit Handler
+  newAddForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-        const courseDetails = {
-            ects: parseInt(document.getElementById('courseEcts').value),
-            credits: parseInt(document.getElementById('courseCredits').value),
-            semester: parseInt(document.getElementById('courseSemester').value),
-            type: document.getElementById('courseType').value
-        };
-        const courseCode = document.getElementById('addCourseCode').value;
+    const courseDetails = {
+      ects: parseInt(document.getElementById("courseEcts").value),
+      credits: parseInt(document.getElementById("courseCredits").value),
+      semester: parseInt(document.getElementById("courseSemester").value),
+      type: document.getElementById("courseType").value,
+    };
+    const courseCode = document.getElementById("addCourseCode").value;
 
-        await addCourseToProgram(program, courseCode, courseDetails);
-        hideAddForm();
-    });
+    await addCourseToProgram(program, courseCode, courseDetails);
+    hideAddForm();
+  });
 }
 
 function showAddForm(courseCode, courseName) {
-    const addForm = document.getElementById('addFormSection');
-    addForm.style.display = 'block';
-    document.getElementById('addCourseCode').value = courseCode;
+  const addForm = document.getElementById("addFormSection");
+  addForm.style.display = "block";
+  document.getElementById("addCourseCode").value = courseCode;
 
-    // Update the form header to include course details
-    document.getElementById('addFormHeader').innerHTML =
-        `Add Course to Program - ${courseCode} ${courseName}`;
+  document.getElementById(
+    "addFormHeader"
+  ).innerHTML = `Add Course to Program - ${courseCode} ${courseName}`;
 
-    addForm.scrollIntoView({ behavior: 'smooth' });
+  addForm.scrollIntoView({ behavior: "smooth" });
 }
 
 function hideAddForm() {
-    document.getElementById('addFormSection').style.display = 'none';
+  document.getElementById("addFormSection").style.display = "none";
 }
 
 async function addCourseToProgram(program, courseCode, courseDetails) {
-    try {
-        const response = await fetch(`${apiBaseUrl}/api/course-programs`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                programCode: program.code,
-                programLevel: program.level,
-                courseCode: courseCode,
-                ects: courseDetails.ects,
-                credits: courseDetails.credits,
-                semester: courseDetails.semester,
-                type: courseDetails.type
-            })
-        });
+  try {
+    const response = await fetch(`${apiBaseUrl}/api/course-programs`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        programCode: program.code,
+        programLevel: program.level,
+        courseCode: courseCode,
+        ects: courseDetails.ects,
+        credits: courseDetails.credits,
+        semester: courseDetails.semester,
+        type: courseDetails.type,
+      }),
+    });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(Object.values(errorData.errors).flat().join('\n'));
-        }
-
-        alert('Course added to program successfully');
-        await loadProgramCourses(program);
-        await loadAvailableCourses(program);
-        setupCourseManagementHandlers(program);
-    } catch (error) {
-        console.error('Error adding course to program:', error);
-        alert('Error adding course: ' + error.message);
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(Object.values(errorData.errors).flat().join("\n"));
     }
+
+    alert("Course added to program successfully");
+    await loadProgramCourses(program);
+    await loadAvailableCourses(program);
+    setupCourseManagementHandlers(program);
+  } catch (error) {
+    console.error("Error adding course to program:", error);
+    alert("Error adding course: " + error.message);
+  }
 }
 
 async function updateProgramCourse(program, courseCode, courseDetails) {
-    try {
-        const response = await fetch(`${apiBaseUrl}/api/course-programs`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                programCode: program.code,
-                programLevel: program.level,
-                courseCode: courseCode,
-                ects: courseDetails.ects,
-                credits: courseDetails.credits,
-                semester: courseDetails.semester,
-                type: courseDetails.type
-            })
-        });
+  try {
+    const response = await fetch(`${apiBaseUrl}/api/course-programs`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        programCode: program.code,
+        programLevel: program.level,
+        courseCode: courseCode,
+        ects: courseDetails.ects,
+        credits: courseDetails.credits,
+        semester: courseDetails.semester,
+        type: courseDetails.type,
+      }),
+    });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(Object.values(errorData.errors).flat().join('\n'));
-        }
-
-        alert('Course updated successfully');
-        await loadProgramCourses(program);
-    } catch (error) {
-        console.error('Error updating course:', error);
-        alert('Error updating course: ' + error.message);
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(Object.values(errorData.errors).flat().join("\n"));
     }
+
+    alert("Course updated successfully");
+    await loadProgramCourses(program);
+  } catch (error) {
+    console.error("Error updating course:", error);
+    alert("Error updating course: " + error.message);
+  }
 }
 
+
 async function removeCourseFromProgram(program, courseCode) {
-    if (!confirm('Are you sure you want to remove this course from the program?')) return;
+  if (!confirm("Are you sure you want to remove this course from the program?"))
+    return;
 
-    try {
-        const response = await fetch(
-            `${apiBaseUrl}/api/course-programs/${program.code}/${program.level}/${courseCode}`,
-            { method: 'DELETE' }
-        );
+  try {
+    const response = await fetch(
+      `${apiBaseUrl}/api/course-programs/${program.code}/${program.level}/${courseCode}`,
+      { method: "DELETE" }
+    );
 
-        if (!response.ok) {
-            const errorData = await response.text();
-            throw new Error(errorData || 'Failed to remove course');
-        }
-
-        alert('Course removed successfully');
-        await loadProgramCourses(program);
-        await loadAvailableCourses(program);
-        setupCourseManagementHandlers(program);
-    } catch (error) {
-        console.error('Error removing course:', error);
-        alert('Error removing course: ' + error.message);
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(errorData || "Failed to remove course");
     }
+
+    alert("Course removed successfully");
+    await loadProgramCourses(program);
+    await loadAvailableCourses(program);
+    setupCourseManagementHandlers(program);
+  } catch (error) {
+    console.error("Error removing course:", error);
+    alert("Error removing course: " + error.message);
+  }
 }
 
 function showEditForm(courseData) {
-    const editForm = document.getElementById('editFormSection');
-    editForm.style.display = 'block';
+  const editForm = document.getElementById("editFormSection");
+  editForm.style.display = "block";
 
-    // Update the form header to include course details
-    document.getElementById('editFormHeader').innerHTML =
-        `Edit Course Details - ${courseData.courseCode} ${courseData.courseName}`;
+  // Update the form header to include course details
+  document.getElementById(
+    "editFormHeader"
+  ).innerHTML = `Edit Course Details - ${courseData.courseCode} ${courseData.courseName}`;
 
-    // Populate form fields
-    document.getElementById('editCourseEcts').value = courseData.ects;
-    document.getElementById('editCourseCredits').value = courseData.credits;
-    document.getElementById('editCourseSemester').value = courseData.semester;
-    document.getElementById('editCourseType').value = courseData.type;
-    document.getElementById('editCourseCode').value = courseData.courseCode;
+  // Populate form fields
+  document.getElementById("editCourseEcts").value = courseData.ects;
+  document.getElementById("editCourseCredits").value = courseData.credits;
+  document.getElementById("editCourseSemester").value = courseData.semester;
+  document.getElementById("editCourseType").value = courseData.type;
+  document.getElementById("editCourseCode").value = courseData.courseCode;
 
-    editForm.scrollIntoView({ behavior: 'smooth' });
+  editForm.scrollIntoView({ behavior: "smooth" });
 }
 
 function hideEditForm() {
-    document.getElementById('editFormSection').style.display = 'none';
+  document.getElementById("editFormSection").style.display = "none";
 }
 
 function setupSearchFunctionality(courses) {
-    const searchInput = document.getElementById('courseSearchInput');
-    searchInput.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-        filterCourses(courses, searchTerm);
-    });
+  const searchInput = document.getElementById("courseSearchInput");
+  searchInput.addEventListener("input", (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    filterCourses(courses, searchTerm);
+  });
 }
 
 function filterCourses(courses, searchTerm) {
-    const filteredCourses = courses.filter(course =>
-        course.code.toLowerCase().includes(searchTerm) ||
-        course.name.toLowerCase().includes(searchTerm)
-    );
-    displayAvailableCourses(filteredCourses);
-    setupCourseManagementHandlers({ code: '', level: '' });
+  const filteredCourses = courses.filter(
+    (course) =>
+      course.code.toLowerCase().includes(searchTerm) ||
+      course.name.toLowerCase().includes(searchTerm)
+  );
+  displayAvailableCourses(filteredCourses);
+  setupCourseManagementHandlers({ code: "", level: "" });
 }

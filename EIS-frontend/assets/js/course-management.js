@@ -1,7 +1,6 @@
 const apiBaseUrl = 'https://localhost:7173';
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Load initial courses
     loadCourses();
 
     // Add Course Form Handler
@@ -17,11 +16,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             await createCourse(courseData);
 
-            // Clear form and close modal
             addCourseForm.reset();
             $('#addCourseModal').modal('hide');
 
-            // Reload courses
             await loadCourses();
         });
     }
@@ -40,7 +37,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             await updateCourse(originalCode, courseData);
 
-            // Close modal and reload courses
             $('#editCourseModal').modal('hide');
             await loadCourses();
         });
@@ -207,18 +203,15 @@ function handleEditCourse(course) {
     document.getElementById('editCourseCode').value = course.code;
     document.getElementById('editCourseName').value = course.name;
 
-    // Show the modal
     $('#editCourseModal').modal('show');
 }
 
 async function updateCourse(originalCode, courseData) {
     try {
-        // Show loading state
         const submitButton = document.querySelector('#editCourseForm button[type="submit"]');
         submitButton.disabled = true;
         submitButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Updating...';
 
-        // Validate input
         if (!courseData.code?.trim() || !courseData.name?.trim()) {
             throw new Error('Course code and name are required');
         }
@@ -246,7 +239,6 @@ async function updateCourse(originalCode, courseData) {
         alert(error.message || 'Failed to update course. Please try again.');
         throw error;
     } finally {
-        // Reset loading state
         const submitButton = document.querySelector('#editCourseForm button[type="submit"]');
         submitButton.disabled = false;
         submitButton.textContent = 'Update Course';
@@ -256,13 +248,9 @@ async function updateCourse(originalCode, courseData) {
 async function handleDeleteCourse(courseCode) {
     if (confirm('Are you sure you want to delete this course?')) {
         try {
-            // First, check if courseCode is defined
             if (!courseCode) {
                 throw new Error('Course code is undefined');
             }
-
-            // Log the URL being called (for debugging)
-            console.log(`Attempting to delete course: ${courseCode}`);
 
             const response = await fetch(`${apiBaseUrl}/api/courses/${encodeURIComponent(courseCode)}`, {
                 method: 'DELETE',
@@ -277,7 +265,6 @@ async function handleDeleteCourse(courseCode) {
                 throw new Error(`Failed to delete course. Status: ${response.status}`);
             }
 
-            // If successful, reload the courses
             await loadCourses();
             alert('Course deleted successfully');
         } catch (error) {

@@ -28,7 +28,7 @@ function updateAcademicYearList(academicYears) {
     
     // Sort academic years by startYear in descending order
     const sortedYears = [...academicYears].sort((a, b) => b.startYear - a.startYear);
-    const currentYear = sortedYears[0]; // Latest year is the current year
+    const currentYear = sortedYears[0]; 
     
     sortedYears.forEach(year => {
         const yearDisplay = `${year.startYear}-${year.endYear}`;
@@ -56,7 +56,6 @@ function updateAcademicYearList(academicYears) {
         `;
         list.appendChild(li);
         
-        // If this is the current year, also update the current year display at the top
         if (isCurrentYear) {
             updateCurrentYearDisplay(year);
         }
@@ -97,13 +96,11 @@ document.getElementById('add-academic-year-form').addEventListener('submit', asy
     const yearInput = document.getElementById('academic-year');
     const startYear = parseInt(yearInput.value.trim());
 
-    // Basic validation
     if (isNaN(startYear)) {
         showAlert('Please enter a valid start year');
         return;
     }
 
-    // Check if current year's semesters are finalized
     const currentYear = await getCurrentYear();
     if (currentYear && (!currentYear.fallSemesterFinalized || !currentYear.springSemesterFinalized)) {
         showAlert('Cannot add a new academic year while the current year semesters are open');
@@ -152,19 +149,16 @@ async function getCurrentYear() {
 
 async function toggleSemester(startYear, semester, finalized) {
     try {
-        // First get current year data
         const getResponse = await fetch(`${API_BASE_URL}/api/years/${startYear}`);
         if (!getResponse.ok) throw new Error('Failed to get academic year details');
         
         const currentYear = await getResponse.json();
         
-        // Prepare update data
         const updateData = {
             fallSemesterFinalized: semester === 'fall' ? finalized : currentYear.fallSemesterFinalized,
             springSemesterFinalized: semester === 'spring' ? finalized : currentYear.springSemesterFinalized
         };
 
-        // Send PUT request
         const response = await fetch(`${API_BASE_URL}/api/years/${startYear}`, {
             method: 'PUT',
             headers: {
@@ -177,10 +171,8 @@ async function toggleSemester(startYear, semester, finalized) {
             throw new Error(`Failed to update ${semester} semester status`);
         }
 
-        // Refresh the list
         await loadAcademicYears();
         
-        // Show success message
         const semesterDisplay = semester.charAt(0).toUpperCase() + semester.slice(1);
         const statusDisplay = finalized ? 'finalized' : 'opened';
         showAlert(`${semesterDisplay} semester successfully ${statusDisplay}`);
@@ -206,7 +198,6 @@ function showAlert(message, type = 'info') {
   container.appendChild(alertDiv);
   repositionToasts();
   
-  // Auto remove after 5 seconds
   setTimeout(() => removeToast(alertDiv), 5000);
 }
 
@@ -224,7 +215,7 @@ function repositionToasts() {
   
   toasts.forEach(toast => {
     toast.style.top = offset + 'px';
-    offset += toast.offsetHeight + 10; // 10px gap between toasts
+    offset += toast.offsetHeight + 10;
   });
 }
 
