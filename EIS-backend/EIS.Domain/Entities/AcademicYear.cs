@@ -15,7 +15,5 @@ namespace EIS.Domain.Entities
         public int EndYear { get; set; }
         public bool FallSemesterFinalized { get; set; } = false;
         public bool SpringSemesterFinalized { get; set; } = false;
-
-        public ICollection<CourseProgramYear> CourseProgramYears { get; set; }
     }
 }

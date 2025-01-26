@@ -19,6 +19,12 @@ namespace EIS.Application
         {
             try
             {
+                var lastAcademicYear = await repositoryManager.AcademicYearRepository.FindByStartYearAsync(academicYearDTO.StartYear-1);
+                if (!lastAcademicYear.SpringSemesterFinalized)
+                {
+                    throw new BadRequestException("Cannot create a new academic year without finalizing the spring semester of the previous academic year");
+                }
+
                 var academicYear = mapper.Map<AcademicYear>(academicYearDTO);
                 repositoryManager.AcademicYearRepository.CreateRecord(academicYear);
                 await repositoryManager.SaveAsync();
@@ -73,6 +79,11 @@ namespace EIS.Application
         {
             try
             {
+                if(!academicYearDTO.FallSemesterFinalized && academicYearDTO.SpringSemesterFinalized)
+                {
+                    throw new BadRequestException("Cannot finalize spring semester without finalizing fall semester first");
+                }
+
                 var existingAcademicYear = await repositoryManager.AcademicYearRepository.FindByStartYearAsync(startYear);
                 if (existingAcademicYear == null)
                 {
@@ -80,7 +91,6 @@ namespace EIS.Application
                 }
 
                 mapper.Map(academicYearDTO, existingAcademicYear);
-
                 repositoryManager.AcademicYearRepository.UpdateRecord(existingAcademicYear);
                 await repositoryManager.SaveAsync();
 

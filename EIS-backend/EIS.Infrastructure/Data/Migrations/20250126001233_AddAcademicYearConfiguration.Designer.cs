@@ -4,6 +4,7 @@ using EIS.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EIS.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250126001233_AddAcademicYearConfiguration")]
+    partial class AddAcademicYearConfiguration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -209,6 +212,44 @@ namespace EIS.Infrastructure.Migrations
                     b.ToTable("CoursePrograms");
                 });
 
+            modelBuilder.Entity("EIS.Domain.Entities.CourseProgramYear", b =>
+                {
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
+
+                    b.Property<int>("ProgramId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
+
+                    b.Property<int>("AcademicYearId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(2);
+
+                    b.Property<int>("ClassAverage")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MainLecturerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("NumberOfStudents")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SecondLecturerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CourseId", "ProgramId", "AcademicYearId");
+
+                    b.HasIndex("AcademicYearId");
+
+                    b.HasIndex("MainLecturerId");
+
+                    b.HasIndex("SecondLecturerId");
+
+                    b.ToTable("CourseProgramLecturers");
+                });
+
             modelBuilder.Entity("EIS.Domain.Entities.StudyProgram", b =>
                 {
                     b.Property<int>("Id")
@@ -392,6 +433,39 @@ namespace EIS.Infrastructure.Migrations
                     b.Navigation("Program");
                 });
 
+            modelBuilder.Entity("EIS.Domain.Entities.CourseProgramYear", b =>
+                {
+                    b.HasOne("EIS.Domain.Entities.AcademicYear", "AcademicYear")
+                        .WithMany("CourseProgramYears")
+                        .HasForeignKey("AcademicYearId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EIS.Domain.Entities.ApplicationUser", "MainLecturer")
+                        .WithMany()
+                        .HasForeignKey("MainLecturerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EIS.Domain.Entities.ApplicationUser", "SecondLecturer")
+                        .WithMany()
+                        .HasForeignKey("SecondLecturerId");
+
+                    b.HasOne("EIS.Domain.Entities.CourseProgram", "CourseProgram")
+                        .WithMany("CourseProgramYears")
+                        .HasForeignKey("CourseId", "ProgramId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AcademicYear");
+
+                    b.Navigation("CourseProgram");
+
+                    b.Navigation("MainLecturer");
+
+                    b.Navigation("SecondLecturer");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -443,9 +517,19 @@ namespace EIS.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("EIS.Domain.Entities.AcademicYear", b =>
+                {
+                    b.Navigation("CourseProgramYears");
+                });
+
             modelBuilder.Entity("EIS.Domain.Entities.Course", b =>
                 {
                     b.Navigation("CoursePrograms");
+                });
+
+            modelBuilder.Entity("EIS.Domain.Entities.CourseProgram", b =>
+                {
+                    b.Navigation("CourseProgramYears");
                 });
 
             modelBuilder.Entity("EIS.Domain.Entities.StudyProgram", b =>
