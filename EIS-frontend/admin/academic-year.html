@@ -29,7 +29,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
-    <!
+    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../assets/img/favicon.ico" />
   </head>
 
@@ -132,7 +132,7 @@
 
               <!-- Add New Academic Year Section -->
               <div
-                class="add-academic-year"
+                class="start-academic-year"
                 style="
                   background-color: white;
                   padding: 20px;
@@ -141,21 +141,10 @@
                   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
                 "
               >
-                <h2>Add New Academic Year</h2>
-                <form id="add-academic-year-form" class="d-flex">
-                  <div class="form-group flex-grow-1 mb-0 mr-2">
-                    <input
-                      type="text"
-                      id="academic-year"
-                      name="academic-year"
-                      class="form-control"
-                      placeholder="Add new academic year (YYYY, Only Start Year)"
-                      pattern="\d{4}"
-                      required
-                    />
-                  </div>
-                  <button type="submit" class="btn btn-primary">Add</button>
-                </form>
+                <h2>Start New Academic Year</h2>
+                <button id="start-academic-year-btn" class="btn btn-primary">
+                  Start New Academic Year
+                </button>
               </div>
 
               <!-- Existing Academic Years Section -->
@@ -173,9 +162,7 @@
                   <div
                     class="academic-year-item d-flex align-items-center justify-content-between"
                     style="padding: 10px; border-bottom: 1px solid #eee"
-                  >
-                    </div>
-                  </div>
+                  ></div>
                 </div>
               </div>
             </div>
@@ -183,7 +170,6 @@
         </div>
       </div>
     </div>
-
     <!-- JavaScript -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>

@@ -178,13 +178,14 @@ async function createCourse(courseData) {
             })
         });
 
-        if (!response.ok) {
-            const errorData = await response.text();
-            throw new Error(errorData || 'Failed to create course');
+        const responseData = await response.json();
+
+        if (!response.ok || responseData.result !== 'false') {
+            throw new Error(responseData.message);
         }
 
         alert('Course created successfully');
-        return await response.json();
+        return responseData;
     } catch (error) {
         console.error('Error creating course:', error);
         alert(error.message || 'Failed to create course. Please try again.');
@@ -227,13 +228,14 @@ async function updateCourse(originalCode, courseData) {
             })
         });
 
-        if (!response.ok) {
-            const errorData = await response.text();
-            throw new Error(errorData || 'Failed to update course');
+        const responseData = await response.json();
+
+        if (!response.ok || responseData.result !== 'false') {
+            throw new Error(responseData.message);
         }
 
         alert('Course updated successfully');
-        return await response.json();
+        return responseData;
     } catch (error) {
         console.error('Error updating course:', error);
         alert(error.message || 'Failed to update course. Please try again.');

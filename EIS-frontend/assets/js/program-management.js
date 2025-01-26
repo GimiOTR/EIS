@@ -32,12 +32,14 @@ async function createProgram(programData) {
       body: JSON.stringify(programData),
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(Object.values(errorData.errors).flat().join("\n"));
-    }
+    const responseData = await response.json();
 
-    alert("Program created successfully");
+        if (!response.ok || responseData.result !== 'false') {
+            throw new Error(responseData.message);
+        }
+
+        alert('Program created successfully');
+        return responseData;
   } catch (error) {
     console.error("Error creating program:", error);
     alert("Error creating program: " + error.message);
