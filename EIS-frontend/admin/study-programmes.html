@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Manage Study Programmes</title>
+    <title>Manage Study Programs</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap-grid.css" />
@@ -24,6 +24,10 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css"
       rel="stylesheet"
       type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../assets/img/favicon.ico" />
@@ -93,7 +97,7 @@
         <div class="page-content" style="min-height: 1243px !important">
           <div class="row">
             <div class="col-md-12">
-              <h3 class="page-title">Manage Study Programmes</h3>
+              <h3 class="page-title">Manage Study Programs</h3>
               <ul class="page-breadcrumb breadcrumb">
                 <li>
                   <i class="fa fa-home"></i>
@@ -101,7 +105,7 @@
                   <i class="fa fa-angle-right"></i>
                 </li>
                 <li>
-                  <a href="study-programmes.html">Study Programmes</a>
+                  <a href="study-programmes.html">Study Programs</a>
                 </li>
               </ul>
             </div>
@@ -110,12 +114,12 @@
           <div class="row">
             <div class="col-lg-12">
               <section class="manage-study-programmes">
-                <h2>Study Programmes List</h2>
+                <h2>Study Programs List</h2>
                 <table class="table table-striped">
                   <thead>
                     <tr>
-                      <th>Programme Code</th>
-                      <th>Programme Name</th>
+                      <th>Program Code</th>
+                      <th>Program Name</th>
                       <th>Level</th>
                       <th>Courses</th>
                       <th>Actions</th>
@@ -130,7 +134,7 @@
                   data-toggle="modal"
                   data-target="#addProgrammeModal"
                 >
-                  Add New Programme
+                  Add New Program
                 </button>
               </section>
             </div>
@@ -153,7 +157,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="addProgrammeModalLabel">
-              Add New Programme
+              Add New Program
             </h5>
             <button
               type="button"
@@ -167,7 +171,7 @@
           <div class="modal-body">
             <form id="addProgramForm">
               <div class="form-group">
-                <label for="programCode">Programme Code</label>
+                <label for="programCode">Program Code</label>
                 <input
                   type="text"
                   class="form-control"
@@ -176,7 +180,7 @@
                 />
               </div>
               <div class="form-group">
-                <label for="programName">Programme Name</label>
+                <label for="programName">Program Name</label>
                 <input
                   type="text"
                   class="form-control"
@@ -193,7 +197,7 @@
                 </select>
               </div>
               <button type="submit" class="btn btn-primary">
-                Add Programme
+                Add Program
               </button>
             </form>
           </div>
@@ -214,7 +218,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="viewCoursesModalLabel">
-              Programme Courses
+              Program Courses
             </h5>
             <button
               type="button"

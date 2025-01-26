@@ -90,47 +90,30 @@ function updateCurrentYearDisplay(currentYear) {
     }
 }
 
-// Form submission handler
-document.getElementById('add-academic-year-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const yearInput = document.getElementById('academic-year');
-    const startYear = parseInt(yearInput.value.trim());
-
-    if (isNaN(startYear)) {
-        showAlert('Please enter a valid start year');
-        return;
-    }
-
-    const currentYear = await getCurrentYear();
-    if (currentYear && (!currentYear.fallSemesterFinalized || !currentYear.springSemesterFinalized)) {
-        showAlert('Cannot add a new academic year while the current year semesters are open');
-        return;
-    }
-
-    const endYear = startYear + 1;
-
+document.getElementById('start-academic-year-btn').addEventListener('click', async () => {
     try {
+        // Assuming you have an API endpoint to add a new academic year
         const response = await fetch(`${API_BASE_URL}/api/years`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                startYear: startYear,
-                endYear: endYear
-            })
         });
-        
-        if (!response.ok) throw new Error('Failed to add academic year');
-        
-        yearInput.value = '';
-        await loadAcademicYears();
-        showAlert('Academic year added successfully');
+
+        const responseData = await response.json();
+
+        if (!response.ok || responseData.result !== 'false') {
+            throw new Error(responseData.message);
+        }
+
+        alert('New academic year started successfully');
+        return responseData;
     } catch (error) {
-        console.error('Error adding academic year:', error);
-        showAlert('Failed to add academic year');
+        console.error('Error starting new academic year:', error);
+        alert(error.message || 'Failed to start new academic year. Please try again.');
     }
 });
+
 
 // Helper function to get the current year
 async function getCurrentYear() {
@@ -167,10 +150,12 @@ async function toggleSemester(startYear, semester, finalized) {
             body: JSON.stringify(updateData)
         });
 
-        if (!response.ok) {
-            throw new Error(`Failed to update ${semester} semester status`);
-        }
+        const responseData = await response.json();
 
+        if (!response.ok || responseData.result == false) {
+            throw new Error(responseData.message);
+        }
+        
         await loadAcademicYears();
         
         const semesterDisplay = semester.charAt(0).toUpperCase() + semester.slice(1);
@@ -178,9 +163,10 @@ async function toggleSemester(startYear, semester, finalized) {
         showAlert(`${semesterDisplay} semester successfully ${statusDisplay}`);
     } catch (error) {
         console.error('Error updating semester status:', error);
-        showAlert(`Failed to update semester status: ${error.message}`);
+        showAlert(`Error: ${error.message}`);
     }
 }
+
 
 function showAlert(message, type = 'info') {
   const container = document.getElementById('toast-container');

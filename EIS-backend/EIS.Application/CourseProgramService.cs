@@ -77,11 +77,8 @@ namespace EIS.Application
                     return errorResponse;
                 }
 
-                var courseProgram = await repositoryManager.CourseProgramRepository.FindByIdAsync(course.Id, program.Id);
-                if (courseProgram == null)
-                {
-                    return new BaseResponse { Result = false, Message = "This course is not part of this program" };
-                }
+                var courseProgram = await repositoryManager.CourseProgramRepository.FindByIdAsync(course.Id, program.Id)
+                    ?? throw new NotFoundException("Course is not part of this program");
 
                 repositoryManager.CourseProgramRepository.DeleteRecord(courseProgram);
                 await repositoryManager.SaveAsync();
@@ -104,11 +101,8 @@ namespace EIS.Application
                     return errorResponse;
                 }
 
-                var existingCourseProgram = await repositoryManager.CourseProgramRepository.FindByIdAsync(course.Id, program.Id);
-                if (existingCourseProgram == null)
-                {
-                    return new BaseResponse { Result = false, Message = "Course is not part of this program" };
-                }
+                var existingCourseProgram = await repositoryManager.CourseProgramRepository.FindByIdAsync(course.Id, program.Id) 
+                    ?? throw new NotFoundException("Course is not part of this program");
 
                 mapper.Map(courseProgramRequestDTO, existingCourseProgram);
                 repositoryManager.CourseProgramRepository.UpdateRecord(existingCourseProgram);

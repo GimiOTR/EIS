@@ -18,7 +18,6 @@ namespace EIS.API
             CreateMap<ProgramResponseDTO, StudyProgram>().ReverseMap();
 
             //Academic Year
-            CreateMap<AcademicYear, CreateAcademicYearDTO>().ReverseMap();
             CreateMap<AcademicYear, UpdateAcademicYearDTO>().ReverseMap();
             CreateMap<AcademicYearResponseDTO, AcademicYear>().ReverseMap();
 

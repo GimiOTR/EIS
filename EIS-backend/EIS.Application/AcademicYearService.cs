@@ -15,11 +15,21 @@ namespace EIS.Application
 {
     public class AcademicYearService(IRepositoryManager repositoryManager, IMapper mapper) : IAcademicYearService
     {
-        public async Task<BaseResponse> CreateAcademicYear(CreateAcademicYearDTO academicYearDTO)
+        public async Task<BaseResponse> CreateAcademicYear()
         {
             try
             {
-                var academicYear = mapper.Map<AcademicYear>(academicYearDTO);
+                var lastAcademicYear = await repositoryManager.AcademicYearRepository.FindLastAcademicYearAsync();
+                if (!lastAcademicYear.SpringSemesterFinalized)
+                {
+                    throw new BadRequestException("Cannot create a new academic year without finalizing the spring semester of the previous academic year");
+                }
+
+                var academicYear = new AcademicYear
+                { 
+                    StartYear = lastAcademicYear.EndYear, 
+                    EndYear = lastAcademicYear.EndYear + 1
+                };
                 repositoryManager.AcademicYearRepository.CreateRecord(academicYear);
                 await repositoryManager.SaveAsync();
 
@@ -73,14 +83,15 @@ namespace EIS.Application
         {
             try
             {
-                var existingAcademicYear = await repositoryManager.AcademicYearRepository.FindByStartYearAsync(startYear);
-                if (existingAcademicYear == null)
+                if(!academicYearDTO.FallSemesterFinalized && academicYearDTO.SpringSemesterFinalized)
                 {
-                    return new BaseResponse { Result = false, Message = "The academic year with start year: " + startYear + " was not found" };
+                    throw new BadRequestException("Cannot finalize spring semester without finalizing fall semester first");
                 }
 
-                mapper.Map(academicYearDTO, existingAcademicYear);
+                var existingAcademicYear = await repositoryManager.AcademicYearRepository.FindByStartYearAsync(startYear) 
+                    ?? throw new NotFoundException($"The academic year with start year: {startYear} was not found!");
 
+                mapper.Map(academicYearDTO, existingAcademicYear);
                 repositoryManager.AcademicYearRepository.UpdateRecord(existingAcademicYear);
                 await repositoryManager.SaveAsync();
 

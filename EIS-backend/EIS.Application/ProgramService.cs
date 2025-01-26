@@ -20,23 +20,17 @@ namespace EIS.Application
         {
             try
             {
+                await CheckProgramExistence(programDTO.Code, programDTO.Level);
+
                 var program = mapper.Map<StudyProgram>(programDTO);
                 repositoryManager.ProgramRepository.CreateRecord(program);
                 await repositoryManager.SaveAsync();
 
-                return new BaseResponse
-                {
-                    Result = true,
-                    Message = "Program has been added"
-                };
+                return new BaseResponse { Result = true, Message = "Program has been added" };
             }
             catch (Exception ex)
             {
-                return new BaseResponse
-                {
-                    Result = false,
-                    Message = ex.Message
-                };
+                return new BaseResponse { Result = false, Message = ex.Message };
             }
         }
 
@@ -44,20 +38,13 @@ namespace EIS.Application
         {
             try
             {
-                var program = await repositoryManager.ProgramRepository.FindByCodeAndLevelAsync(code,level);
-                if (program == null)
-                {
-                    return new BaseResponse { Result = false, Message = $"The program with Code: {code} and Level: {level} was not found!" };
-                }
+                var program = await repositoryManager.ProgramRepository.FindByCodeAndLevelAsync(code,level) 
+                    ?? throw new NotFoundException($"The program with Code: {code} and Level: {level} was not found!");
 
                 repositoryManager.ProgramRepository.DeleteRecord(program);
                 await repositoryManager.SaveAsync();
 
-                return new BaseResponse
-                {
-                    Result = true,
-                    Message = " The program has been deleted"
-                };
+                return new BaseResponse { Result = true, Message = " The program has been deleted" };
             }
             catch (Exception ex)
             {
@@ -114,26 +101,30 @@ namespace EIS.Application
         {
             try
             {
-                var existingProgram = await repositoryManager.ProgramRepository.FindByCodeAndLevelAsync(code, level);
-                if (existingProgram == null)
-                {
-                    return new BaseResponse { Result = false, Message = $"The program with Code: {code} and Level: {level} was not found!" };
-                }
+                await CheckProgramExistence(code, level);
+
+                var existingProgram = await repositoryManager.ProgramRepository.FindByCodeAndLevelAsync(code, level) 
+                    ?? throw new NotFoundException($"The program with Code: {code} and Level: {level} was not found!");
 
                 mapper.Map(programDTO, existingProgram);
 
                 repositoryManager.ProgramRepository.UpdateRecord(existingProgram);
                 await repositoryManager.SaveAsync();
 
-                return new BaseResponse
-                {
-                    Result = true,
-                    Message = "The program has been modified"
-                };
+                return new BaseResponse { Result = true, Message = "The program has been modified" };
             }
             catch (Exception ex)
             {
                 return new BaseResponse { Result = false, Message = ex.Message };
+            }
+        }
+
+        private async Task CheckProgramExistence(string code, string level)
+        {
+            var existingProgram = await repositoryManager.ProgramRepository.FindByCodeAndLevelAsync(code, level);
+            if (existingProgram != null)
+            {
+                throw new BadRequestException($"The program with Code: {code} and Level: {level} already exists!");
             }
         }
     }

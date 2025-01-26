@@ -10,12 +10,12 @@ namespace EIS.API.Controllers
     [ApiController]
     public class CourseController(IServiceManager serviceManager) : ControllerBase
     {
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        [HttpGet("{code}")]
+        public async Task<IActionResult> Get(string code)
         {
             try
             {
-                var result = await serviceManager.CourseService.FindCourseById(id);
+                var result = await serviceManager.CourseService.FindCourseByCode(code);
                 return Ok(result);
             }
             catch (BadRequestException ex)

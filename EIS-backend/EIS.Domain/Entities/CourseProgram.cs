@@ -26,7 +26,5 @@ namespace EIS.Domain.Entities
 
         [ForeignKey("ProgramId")]
         public StudyProgram Program { get; set; }
-
-        public ICollection<CourseProgramYear> CourseProgramYears { get; set; }
     }
 }

@@ -19,21 +19,17 @@ namespace EIS.Application
         {
             try
             {
+                await CheckCourseExistence(courseDTO.Code);
+
                 var course = mapper.Map<Course>(courseDTO);
                 repositoryManager.CourseRepository.CreateRecord(course);
                 await repositoryManager.SaveAsync();
 
-                return new BaseResponse
-                {
-                    Result = true,  Message = "Course has been added"
-                };
+                return new BaseResponse { Result = true, Message = "Course has been added" };
             }
             catch (Exception ex)
             {
-                return new BaseResponse
-                {
-                    Result = false, Message = ex.Message
-                };
+                return new BaseResponse { Result = false, Message = ex.Message };
             }
         }
 
@@ -41,38 +37,17 @@ namespace EIS.Application
         {
             try
             {
-                var course = await repositoryManager.CourseRepository.FindByCodeAsync(code);
-                if (course == null) 
-                {
-                    return new BaseResponse {  Result = false,  Message = "The course with Id: " + code + " was not found"};
-                }
+                var course = await repositoryManager.CourseRepository.FindByCodeAsync(code) 
+                    ?? throw new NotFoundException($"The course with Code: {code} was not found!");
 
                 repositoryManager.CourseRepository.DeleteRecord(course);
                 await repositoryManager.SaveAsync();
 
-                return new BaseResponse
-                {
-                    Result = true, Message = " The course has been deleted"
-                };
+                return new BaseResponse { Result = true, Message = " The course has been deleted" };
             }
             catch(Exception ex)
             {
                 return new BaseResponse { Result = false, Message = ex.Message };
-            }
-        }
-
-        public async Task<CourseResponseDTO> FindCourseById(int id)
-        {
-            try
-            {
-                var course = await repositoryManager.CourseRepository.FindByIdAsync(id);
-                return course == null
-                    ? throw new NotFoundException($"The course with Id: {id} was not found!")
-                    : mapper.Map<CourseResponseDTO>(course);
-            }
-            catch (Exception ex)
-            {
-                throw new BadRequestException(ex.Message);
             }
         }
 
@@ -110,26 +85,30 @@ namespace EIS.Application
         {
             try
             {
-                var existingCourse = await repositoryManager.CourseRepository.FindByCodeAsync(code);
-                if(existingCourse == null)
-                {
-                    return new BaseResponse { Result = false, Message = "The course with Id: " + code + " was not found" };
-                }
+                await CheckCourseExistence(courseDTO.Code);
 
-                mapper.Map(courseDTO, existingCourse);
+                var course = await repositoryManager.CourseRepository.FindByCodeAsync(code) 
+                    ?? throw new NotFoundException($"The course with Code: {code} was not found!");
 
-                repositoryManager.CourseRepository.UpdateRecord(existingCourse);
+                mapper.Map(courseDTO, course);
+
+                repositoryManager.CourseRepository.UpdateRecord(course);
                 await repositoryManager.SaveAsync();
 
-                return new BaseResponse
-                {
-                    Result = true,
-                    Message = "The course has been modified"
-                };
+                return new BaseResponse { Result = true, Message = "The course has been modified" };
             }
             catch(Exception ex)
             {
                 return new BaseResponse { Result = false, Message = ex.Message };
+            }
+        }
+
+        private async Task CheckCourseExistence(string code)
+        {
+            var existingCourse = await repositoryManager.CourseRepository.FindByCodeAsync(code);
+            if (existingCourse != null)
+            {
+                throw new BadRequestException($"The course with Code: {code} already exists");
             }
         }
     }

@@ -31,9 +31,9 @@ namespace EIS.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CreateAcademicYearDTO academicYearDTO)
+        public async Task<IActionResult> Post()
         {
-            var result = await serviceManager.AcademicYearService.CreateAcademicYear(academicYearDTO);
+            var result = await serviceManager.AcademicYearService.CreateAcademicYear();
             return Ok(result);
         }
 
