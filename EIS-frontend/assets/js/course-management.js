@@ -230,7 +230,7 @@ async function updateCourse(originalCode, courseData) {
 
         const responseData = await response.json();
 
-        if (!response.ok || responseData.result !== 'false') {
+        if (!response.ok || responseData.result == false) {
             throw new Error(responseData.message);
         }
 
