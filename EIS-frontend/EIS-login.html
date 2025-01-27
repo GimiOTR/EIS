@@ -13,12 +13,10 @@
     />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <title>Epoka Interactive System</title>
-    
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.css" />
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-reboot.css" />
-
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/login.css" />
     <link rel="stylesheet" href="assets/css/custom.css" />
@@ -27,14 +25,12 @@
     <link rel="stylesheet" href="assets/css/style.css" />
     <link rel="stylesheet" href="assets/css/style-metronic.css" />
     <link rel="stylesheet" href="assets/css/style-responsive.css" />
-
     <!-- Font Awesome -->
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css"
       rel="stylesheet"
       type="text/css"
     />
-
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
 
@@ -75,6 +71,10 @@
             </div>
           </div>
         </div>
+        <!-- Spinner -->
+        <div id="spinner" class="spinner-border text-primary" role="status" style="display: none;">
+          <span class="sr-only">Loading...</span>
+        </div>
         <div class="form-group">
           <label class="control-label visible-ie8 visible-ie9">Password</label>
           <div class="input-icon">
@@ -91,15 +91,11 @@
         </div>
         <div class="form-actions">
           <button id="submit" type="submit" class="btn green">
-            <span class="normal-state"
-              >Login <i class="m-icon-swapright m-icon-white"></i
-            ></span>
+            <span class="normal-state">
+              Login <i class="m-icon-swapright m-icon-white"></i>
+            </span>
             <span class="loading-state d-none">
-              <span
-                class="spinner-border spinner-border-sm"
-                role="status"
-                aria-hidden="true"
-              ></span>
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
               Logging in...
             </span>
           </button>
@@ -108,6 +104,25 @@
     </div>
     <div class="copyright">2014 - 2024 © Epoka University, ICTC Office</div>
     <!-- JavaScript -->
+    <script>
+      document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+    
+        document.querySelector('.normal-state').classList.add('d-none');
+        document.querySelector('.loading-state').classList.remove('d-none');
+    
+        setTimeout(function() {
+          const hasError = true;
+    
+          if (hasError) {
+            document.querySelector('.normal-state').classList.remove('d-none');
+            document.querySelector('.loading-state').classList.add('d-none');
+          } else {
+            document.getElementById('loginForm').submit();
+          }
+        }, 2000);
+      });
+    </script>
     <script src="assets/bootstrap/js/bootstrap.bundle.js"></script>
     <script src="assets/bootstrap/js/bootstrap.js"></script>
     <script src="assets/js/login.js"></script>
