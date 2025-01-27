@@ -34,15 +34,17 @@ async function createProgram(programData) {
 
     const responseData = await response.json();
 
-        if (!response.ok || responseData.result !== 'false') {
-            throw new Error(responseData.message);
-        }
+    if (!response.ok || responseData.result == false) {
+      throw new Error(responseData.message);
+    }
 
-        alert('Program created successfully');
-        return responseData;
+    $('#addProgrammeModal').modal('hide');
+    showAlert("Program created successfully", "success", 0);
+    await loadPrograms();
+    return responseData;
   } catch (error) {
     console.error("Error creating program:", error);
-    alert("Error creating program: " + error.message);
+    showAlert("Error creating program: " + error.message, "danger", 2);
   }
 }
 
@@ -57,7 +59,7 @@ async function loadPrograms() {
     updateProgramsTable(programs);
   } catch (error) {
     console.error("Error loading programs:", error);
-    alert("Error loading programs: " + error.message);
+    showAlert("Error loading programs: " + error.message, "danger", 0);
   }
 }
 
@@ -129,6 +131,7 @@ function createManageCoursesModal(program) {
                         <h5 class="modal-title">Manage Courses - ${
                           program.code
                         } (${program.level})</h5>
+                        <div id="toast-container-modal" class="toaster-container" style="padding: 0px 0px 0px 20px;"></div>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span>&times;</span>
                         </button>
@@ -286,7 +289,7 @@ async function loadProgramCourses(program) {
     displayProgramCourses(courses);
   } catch (error) {
     console.error("Error loading program courses:", error);
-    alert("Error loading program courses: " + error.message);
+    showAlert("Error loading program courses: " + error.message, "danger", 1);
   }
 }
 
@@ -372,7 +375,7 @@ async function loadAvailableCourses(program) {
     setupSearchFunctionality(courses);
   } catch (error) {
     console.error("Error loading available courses:", error);
-    alert("Error loading available courses: " + error.message);
+    showAlert("Error loading available courses: " + error.message, "danger", 1);
   }
 }
 
@@ -488,10 +491,10 @@ async function updateProgram(originalProgram, updatedProgram) {
       throw new Error(Object.values(errorData.errors).flat().join("\n"));
     }
 
-    alert("Program updated successfully");
+    showAlert("Program updated successfully", "success", 0);
   } catch (error) {
     console.error("Error updating program:", error);
-    alert("Error updating program: " + error.message);
+    showAlert("Error updating program: " + error.message, "danger", 2);
   } finally {
     // Reset loading state
     submitButton.disabled = false;
@@ -516,15 +519,14 @@ async function handleDeleteProgram(programCode, programLevel) {
       throw new Error(errorData || "Failed to delete program");
     }
 
-    alert("Program deleted successfully");
+    showAlert("Program deleted successfully", "success", 0);
     await loadPrograms();
   } catch (error) {
     console.error("Error deleting program:", error);
-    alert("Error deleting program: " + error.message);
+    showAlert("Error deleting program: " + error.message, "danger", 0);
   }
 }
 
-// Show a Bootstrap Modal
 function showModal(modalHtml, modalId) {
   const existingModal = document.getElementById(modalId);
   if (existingModal) {
@@ -660,13 +662,13 @@ async function addCourseToProgram(program, courseCode, courseDetails) {
       throw new Error(Object.values(errorData.errors).flat().join("\n"));
     }
 
-    alert("Course added to program successfully");
+    showAlert("Course added to program successfully" , "success", 1);
     await loadProgramCourses(program);
     await loadAvailableCourses(program);
     setupCourseManagementHandlers(program);
   } catch (error) {
     console.error("Error adding course to program:", error);
-    alert("Error adding course: " + error.message);
+    showAlert("Error adding course: " + error.message, "danger", 1);
   }
 }
 
@@ -691,14 +693,13 @@ async function updateProgramCourse(program, courseCode, courseDetails) {
       throw new Error(Object.values(errorData.errors).flat().join("\n"));
     }
 
-    alert("Course updated successfully");
+    showAlert("Course updated successfully" , "success", 1);
     await loadProgramCourses(program);
   } catch (error) {
     console.error("Error updating course:", error);
-    alert("Error updating course: " + error.message);
+    showAlert("Error updating course: " + error.message, "danger", 1);
   }
 }
-
 
 async function removeCourseFromProgram(program, courseCode) {
   if (!confirm("Are you sure you want to remove this course from the program?"))
@@ -715,13 +716,13 @@ async function removeCourseFromProgram(program, courseCode) {
       throw new Error(errorData || "Failed to remove course");
     }
 
-    alert("Course removed successfully");
+    showAlert("Course removed successfully", "success", 1);
     await loadProgramCourses(program);
     await loadAvailableCourses(program);
     setupCourseManagementHandlers(program);
   } catch (error) {
     console.error("Error removing course:", error);
-    alert("Error removing course: " + error.message);
+    showAlert("Error removing course: " + error.message, "danger", 1);
   }
 }
 
@@ -764,4 +765,43 @@ function filterCourses(courses, searchTerm) {
   );
   displayAvailableCourses(filteredCourses);
   setupCourseManagementHandlers({ code: "", level: "" });
+}
+
+
+function showAlert(message, type, pos) {
+  let container;
+
+  if (pos === 1) {
+    container = document.getElementById("toast-container-modal");
+  } else if(pos === 0) {
+    container = document.getElementById("toast-container");
+  }
+  else {
+    container = document.getElementById("toast-container-add");
+  }
+
+  if (!container) {
+    console.error('Toaster container not found');
+    return;
+  }
+
+  const alertDiv = document.createElement("div");
+  alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+  alertDiv.setAttribute("role", "alert");
+  alertDiv.innerHTML = `
+    <strong>${capitalizeFirstLetter(type)}!</strong> ${message}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  `;
+
+  container.appendChild(alertDiv);
+
+  setTimeout(() => {
+    $(alertDiv).alert("close");
+  }, 3000);
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }

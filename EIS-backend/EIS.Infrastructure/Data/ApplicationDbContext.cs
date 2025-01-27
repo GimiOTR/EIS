@@ -1,4 +1,5 @@
 ﻿using EIS.Domain.Entities;
+using EIS.Infrastructure.Data.Configurations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,7 @@ namespace EIS.Infrastructure.Data
         {
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new AcademicYearConfiguration());
+            builder.ApplyConfiguration(new ApplicationUserConfiguration());
 
             builder.Entity<Course>(entity =>
             {

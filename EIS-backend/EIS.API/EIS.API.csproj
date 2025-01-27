@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>EIS.API</RootNamespace>
+    <UserSecretsId>46c0baaa-fc31-42b0-afad-a92219c36633</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
