@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EIS.Infrastructure.Data
+namespace EIS.Infrastructure.Data.Configurations
 {
     public class AcademicYearConfiguration : IEntityTypeConfiguration<AcademicYear>
     {
