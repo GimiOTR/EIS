@@ -22,30 +22,22 @@ namespace EIS.Application
                 var lastAcademicYear = await repositoryManager.AcademicYearRepository.FindLastAcademicYearAsync();
                 if (!lastAcademicYear.SpringSemesterFinalized)
                 {
-                    throw new BadRequestException("Cannot create a new academic year without finalizing the spring semester of the previous academic year");
+                    throw new BadRequestException("Cannot create a new academic year without finalizing the semesters of the previous academic year");
                 }
 
                 var academicYear = new AcademicYear
-                { 
+                {
                     StartYear = lastAcademicYear.EndYear, 
                     EndYear = lastAcademicYear.EndYear + 1
                 };
                 repositoryManager.AcademicYearRepository.CreateRecord(academicYear);
                 await repositoryManager.SaveAsync();
 
-                return new BaseResponse
-                {
-                    Result = true,
-                    Message = "academic year has been added"
-                };
+                return new BaseResponse { Result = true, Message = "academic year has been added" };
             }
             catch (Exception ex)
             {
-                return new BaseResponse
-                {
-                    Result = false,
-                    Message = ex.Message
-                };
+                return new BaseResponse { Result = false, Message = ex.Message };
             }
         }
 
@@ -95,11 +87,7 @@ namespace EIS.Application
                 repositoryManager.AcademicYearRepository.UpdateRecord(existingAcademicYear);
                 await repositoryManager.SaveAsync();
 
-                return new BaseResponse
-                {
-                    Result = true,
-                    Message = "The academic year has been modified"
-                };
+                return new BaseResponse { Result = true, Message = "The academic year has been modified" };
             }
             catch (Exception ex)
             {
