@@ -85,7 +85,8 @@ namespace EIS.Application
         {
             try
             {
-                await CheckCourseExistence(courseDTO.Code);
+                if(code != courseDTO.Code)
+                    await CheckCourseExistence(courseDTO.Code);
 
                 var course = await repositoryManager.CourseRepository.FindByCodeAsync(code) 
                     ?? throw new NotFoundException($"The course with Code: {code} was not found!");

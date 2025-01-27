@@ -101,7 +101,8 @@ namespace EIS.Application
         {
             try
             {
-                await CheckProgramExistence(code, level);
+                if (code != programDTO.Code || level != programDTO.Level)
+                    await CheckProgramExistence(code, level);
 
                 var existingProgram = await repositoryManager.ProgramRepository.FindByCodeAndLevelAsync(code, level) 
                     ?? throw new NotFoundException($"The program with Code: {code} and Level: {level} was not found!");
