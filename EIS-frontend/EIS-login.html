@@ -8,8 +8,8 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <meta
-    http-equiv="Content-Security-Policy"
-    content="default-src 'self' https:; script-src 'self' https: 'unsafe-inline' 'unsafe-eval'; style-src 'self' https: 'unsafe-inline';"
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' https:; script-src 'self' https: 'unsafe-inline' 'unsafe-eval'; style-src 'self' https: 'unsafe-inline';"
     />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <title>Epoka Interactive System</title>
@@ -33,7 +33,6 @@
     />
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
-
   </head>
 
   <body class="login custom-theme" style>
@@ -72,7 +71,12 @@
           </div>
         </div>
         <!-- Spinner -->
-        <div id="spinner" class="spinner-border text-primary" role="status" style="display: none;">
+        <div
+          id="spinner"
+          class="spinner-border text-primary"
+          role="status"
+          style="display: none"
+        >
           <span class="sr-only">Loading...</span>
         </div>
         <div class="form-group">
@@ -95,7 +99,11 @@
               Login <i class="m-icon-swapright m-icon-white"></i>
             </span>
             <span class="loading-state d-none">
-              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              <span
+                class="spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+              ></span>
               Logging in...
             </span>
           </button>
@@ -104,25 +112,6 @@
     </div>
     <div class="copyright">2014 - 2024 © Epoka University, ICTC Office</div>
     <!-- JavaScript -->
-    <script>
-      document.getElementById('loginForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-    
-        document.querySelector('.normal-state').classList.add('d-none');
-        document.querySelector('.loading-state').classList.remove('d-none');
-    
-        setTimeout(function() {
-          const hasError = true;
-    
-          if (hasError) {
-            document.querySelector('.normal-state').classList.remove('d-none');
-            document.querySelector('.loading-state').classList.add('d-none');
-          } else {
-            document.getElementById('loginForm').submit();
-          }
-        }, 2000);
-      });
-    </script>
     <script src="assets/bootstrap/js/bootstrap.bundle.js"></script>
     <script src="assets/bootstrap/js/bootstrap.js"></script>
     <script src="assets/js/login.js"></script>

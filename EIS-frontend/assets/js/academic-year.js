@@ -18,7 +18,7 @@ async function loadAcademicYears() {
         updateAcademicYearList(academicYears);
     } catch (error) {
         console.error('Error loading academic years:', error);
-        showAlert('Failed to load academic years');
+        showAlert('Failed to load academic years', 'danger');
     }
 }
 
@@ -92,7 +92,6 @@ function updateCurrentYearDisplay(currentYear) {
 
 document.getElementById('start-academic-year-btn').addEventListener('click', async () => {
     try {
-        // Assuming you have an API endpoint to add a new academic year
         const response = await fetch(`${API_BASE_URL}/api/years`, {
             method: 'POST',
             headers: {
@@ -102,15 +101,15 @@ document.getElementById('start-academic-year-btn').addEventListener('click', asy
 
         const responseData = await response.json();
 
-        if (!response.ok || responseData.result !== 'false') {
+        if (!response.ok || responseData.result == false) {
             throw new Error(responseData.message);
         }
 
-        alert('New academic year started successfully');
+        showAlert('New academic year started successfully', 'success');
         return responseData;
     } catch (error) {
         console.error('Error starting new academic year:', error);
-        alert(error.message || 'Failed to start new academic year. Please try again.');
+        showAlert(error.message || 'Failed to start new academic year. Please try again.', 'danger');
     }
 });
 
@@ -123,7 +122,7 @@ async function getCurrentYear() {
         
         const academicYears = await response.json();
         const sortedYears = [...academicYears].sort((a, b) => b.startYear - a.startYear);
-        return sortedYears[0]; // Return the latest year
+        return sortedYears[0];
     } catch (error) {
         console.error('Error fetching current year:', error);
         return null;
@@ -160,56 +159,34 @@ async function toggleSemester(startYear, semester, finalized) {
         
         const semesterDisplay = semester.charAt(0).toUpperCase() + semester.slice(1);
         const statusDisplay = finalized ? 'finalized' : 'opened';
-        showAlert(`${semesterDisplay} semester successfully ${statusDisplay}`);
+        showAlert(`${semesterDisplay} semester successfully ${statusDisplay}`, 'success');
     } catch (error) {
         console.error('Error updating semester status:', error);
-        showAlert(`Error: ${error.message}`);
+        showAlert(`Error: ${error.message}`, 'danger');
     }
 }
 
 
-function showAlert(message, type = 'info') {
-  const container = document.getElementById('toast-container');
-  const alertDiv = document.createElement('div');
-  
-  alertDiv.className = `alert-toast ${type}`;
-  alertDiv.innerHTML = `
-    <div class="alert-content">
-      <i class="fas ${getAlertIcon(type)}"></i>
-      <span>${message}</span>
-    </div>
-    <button class="close-btn" onclick="removeToast(this.parentElement)">×</button>
-  `;
-  
-  container.appendChild(alertDiv);
-  repositionToasts();
-  
-  setTimeout(() => removeToast(alertDiv), 5000);
+function showAlert(message, type) {
+    const container = document.getElementById('toast-container');
+    const alertDiv = document.createElement('div');
+    
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+    alertDiv.role = 'alert';
+    alertDiv.innerHTML = `
+        <strong>${capitalizeFirstLetter(type)}!</strong> ${message}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    `;
+    
+    container.appendChild(alertDiv);
+    
+    setTimeout(() => {
+        $(alertDiv).alert('close');
+    }, 5000);
 }
 
-function removeToast(toast) {
-  toast.classList.add('fade-out');
-  setTimeout(() => {
-    toast.remove();
-    repositionToasts();
-  }, 300);
-}
-
-function repositionToasts() {
-  const toasts = document.querySelectorAll('.alert-toast');
-  let offset = 20;
-  
-  toasts.forEach(toast => {
-    toast.style.top = offset + 'px';
-    offset += toast.offsetHeight + 10;
-  });
-}
-
-function getAlertIcon(type) {
-  switch(type) {
-    case 'success': return 'fa-check-circle';
-    case 'error': return 'fa-exclamation-circle'; 
-    case 'warning': return 'fa-exclamation-triangle';
-    default: return 'fa-info-circle';
-  }
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }

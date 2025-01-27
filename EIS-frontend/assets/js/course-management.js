@@ -157,12 +157,10 @@ function updateActiveButton() {
 
 async function createCourse(courseData) {
     try {
-        // Show loading state
         const submitButton = document.querySelector('#addCourseForm button[type="submit"]');
         submitButton.disabled = true;
         submitButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Creating...';
 
-        // Validate input
         if (!courseData.code?.trim() || !courseData.name?.trim()) {
             throw new Error('Course code and name are required');
         }
@@ -180,18 +178,17 @@ async function createCourse(courseData) {
 
         const responseData = await response.json();
 
-        if (!response.ok || responseData.result !== 'false') {
+        if (!response.ok || responseData.result == false) {
             throw new Error(responseData.message);
         }
 
-        alert('Course created successfully');
+        showAlert('Course added successfully', 'success');
         return responseData;
     } catch (error) {
         console.error('Error creating course:', error);
-        alert(error.message || 'Failed to create course. Please try again.');
+        showAlert(error.message || 'Failed to create course. Please try again.', 'danger');
         throw error;
     } finally {
-        // Reset loading state
         const submitButton = document.querySelector('#addCourseForm button[type="submit"]');
         submitButton.disabled = false;
         submitButton.textContent = 'Create Course';
@@ -268,10 +265,10 @@ async function handleDeleteCourse(courseCode) {
             }
 
             await loadCourses();
-            alert('Course deleted successfully');
+            showAlert('Course deleted successfully', 'success');
         } catch (error) {
             console.error('Error deleting course:', error);
-            alert(`Failed to delete course: ${error.message}`);
+            showAlert(`Failed to delete course: ${error.message}`, 'danger');
         }
     }
 }
@@ -341,4 +338,34 @@ function filterCourses(courses, searchTerm) {
     });
 
     createPaginationControls(filteredCourses);
+}
+
+function showAlert(message, type) {
+    let container;
+    if (type === 'danger') {
+        container = document.getElementById('toast-container-danger');
+    } else {
+        container = document.getElementById('toast-container');
+    }
+
+    const alertDiv = document.createElement('div');
+    
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+    alertDiv.role = 'alert';
+    alertDiv.innerHTML = `
+        <strong>${capitalizeFirstLetter(type)}!</strong> ${message}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    `;
+    
+    container.appendChild(alertDiv);
+    
+    setTimeout(() => {
+        $(alertDiv).alert('close');
+    }, 5000);
+}
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
